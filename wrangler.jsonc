@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "goodsforechange",
+  "compatibility_date": "2026-10-04",
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  }
+}
