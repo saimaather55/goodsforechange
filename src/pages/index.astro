@@ -1,11 +1,481 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const title = "GoodsForExchange | Exchange What You Have for What You Want";
+const description =
+  "GoodsForExchange is a marketplace for exchanging goods without buying or selling. Find something you want and offer something you have.";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="logo">GoodsForExchange</a>
+
+        <nav>
+          <a href="/">Home</a>
+          <a href="#categories">Categories</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="/post-item">Post an Item</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-content">
+          <span class="eyebrow">A marketplace for exchanging goods</span>
+
+          <h1>Exchange what you have for what you want.</h1>
+
+          <p>
+            Find useful things from other people and offer something you have
+            in exchange. No buying or selling required.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#listings" class="button primary">Browse Listings</a>
+            <a href="/post-item" class="button secondary">Post an Item</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="listings" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Explore</span>
+            <h2>Recent Listings</h2>
+            <p>Discover items people are willing to exchange.</p>
+          </div>
+
+          <div class="listing-grid">
+            <article class="listing-card">
+              <div class="listing-image">📱</div>
+              <div class="listing-content">
+                <span class="condition">Good condition</span>
+                <h3>Smartphone</h3>
+                <p>Looking to exchange for a tablet or similar item.</p>
+                <span class="location">📍 Example City</span>
+              </div>
+            </article>
+
+            <article class="listing-card">
+              <div class="listing-image">🎸</div>
+              <div class="listing-content">
+                <span class="condition">Excellent condition</span>
+                <h3>Acoustic Guitar</h3>
+                <p>Open to exchanging for another musical instrument.</p>
+                <span class="location">📍 Example City</span>
+              </div>
+            </article>
+
+            <article class="listing-card">
+              <div class="listing-image">🚲</div>
+              <div class="listing-content">
+                <span class="condition">Used</span>
+                <h3>Mountain Bike</h3>
+                <p>Looking for another bike or useful outdoor equipment.</p>
+                <span class="location">📍 Example City</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="categories" class="section light">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Browse by category</span>
+            <h2>What are you looking for?</h2>
+          </div>
+
+          <div class="category-grid">
+            <a href="#" class="category">📱 Electronics</a>
+            <a href="#" class="category">🪑 Furniture</a>
+            <a href="#" class="category">🚲 Sports & Outdoors</a>
+            <a href="#" class="category">🎮 Games & Hobbies</a>
+            <a href="#" class="category">🏠 Home & Garden</a>
+            <a href="#" class="category">👕 Clothing & Accessories</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Simple exchange</span>
+            <h2>How GoodsForExchange works</h2>
+          </div>
+
+          <div class="steps">
+            <div class="step">
+              <span class="step-number">1</span>
+              <h3>Find an item</h3>
+              <p>Browse listings and find something you would like to have.</p>
+            </div>
+
+            <div class="step">
+              <span class="step-number">2</span>
+              <h3>Make an offer</h3>
+              <p>Contact the owner and offer something you are willing to exchange.</p>
+            </div>
+
+            <div class="step">
+              <span class="step-number">3</span>
+              <h3>Agree on the exchange</h3>
+              <p>Discuss the details and arrange the exchange directly.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="responsibility">
+        <div class="container responsibility-box">
+          <h2>Exchange responsibly</h2>
+
+          <p>
+            GoodsForExchange provides the marketplace only. Users are
+            responsible for checking ownership, condition, suitability,
+            identity and all other details before agreeing to an exchange.
+          </p>
+
+          <p>
+            GoodsForExchange does not participate in, guarantee or complete
+            exchanges between users.
+          </p>
+        </div>
+      </section>
+
+      <section class="cta">
+        <div class="container">
+          <h2>Have something worth exchanging?</h2>
+          <p>Post your item and find someone looking for what you have.</p>
+          <a href="/post-item" class="button primary">Post an Item</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <div>
+          <strong>GoodsForExchange</strong>
+          <p>Exchange what you have for what you want.</p>
+        </div>
+
+        <p>© {new Date().getFullYear()} GoodsForExchange</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(body) {
+    margin: 0;
+    font-family:
+      Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #172033;
+    background: #ffffff;
+    line-height: 1.6;
+  }
+
+  :global(a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .container {
+    width: min(1120px, calc(100% - 40px));
+    margin: 0 auto;
+  }
+
+  .site-header {
+    border-bottom: 1px solid #e8edf2;
+    background: #ffffff;
+  }
+
+  .nav {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .logo {
+    font-size: 21px;
+    font-weight: 800;
+    color: #176b87;
+  }
+
+  nav {
+    display: flex;
+    gap: 24px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  nav a:hover {
+    color: #176b87;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #f0fafc, #ffffff);
+    padding: 100px 0;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #176b87;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  h1 {
+    margin: 0 auto 20px;
+    max-width: 800px;
+    font-size: clamp(42px, 7vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  .hero p {
+    max-width: 680px;
+    margin: 0 auto 30px;
+    color: #586579;
+    font-size: 19px;
+  }
+
+  .hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 13px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+  }
+
+  .primary {
+    background: #176b87;
+    color: white;
+  }
+
+  .primary:hover {
+    background: #12566d;
+  }
+
+  .secondary {
+    background: white;
+    border: 1px solid #cbd6df;
+  }
+
+  .section {
+    padding: 80px 0;
+  }
+
+  .light {
+    background: #f7fafb;
+  }
+
+  .section-heading {
+    margin-bottom: 35px;
+  }
+
+  .section-heading h2 {
+    margin: 0 0 8px;
+    font-size: 36px;
+    line-height: 1.15;
+  }
+
+  .section-heading p {
+    margin: 0;
+    color: #687588;
+  }
+
+  .listing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .listing-card {
+    overflow: hidden;
+    border: 1px solid #e2e8ed;
+    border-radius: 12px;
+    background: white;
+  }
+
+  .listing-image {
+    height: 180px;
+    display: grid;
+    place-items: center;
+    background: #eef5f7;
+    font-size: 64px;
+  }
+
+  .listing-content {
+    padding: 20px;
+  }
+
+  .condition {
+    color: #176b87;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .listing-content h3 {
+    margin: 5px 0;
+    font-size: 21px;
+  }
+
+  .listing-content p {
+    margin: 0 0 15px;
+    color: #687588;
+  }
+
+  .location {
+    font-size: 14px;
+    color: #687588;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .category {
+    padding: 20px;
+    border: 1px solid #dfe7ec;
+    border-radius: 10px;
+    background: white;
+    font-weight: 700;
+  }
+
+  .category:hover {
+    border-color: #176b87;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .step-number {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #176b87;
+    color: white;
+    font-weight: 800;
+  }
+
+  .step h3 {
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    color: #687588;
+  }
+
+  .responsibility {
+    padding: 60px 0;
+    background: #fff8e8;
+  }
+
+  .responsibility-box {
+    max-width: 850px;
+  }
+
+  .responsibility h2 {
+    margin-top: 0;
+  }
+
+  .responsibility p {
+    color: #5f5a4e;
+  }
+
+  .cta {
+    padding: 80px 0;
+    text-align: center;
+    background: #176b87;
+    color: white;
+  }
+
+  .cta h2 {
+    margin-top: 0;
+    font-size: 38px;
+  }
+
+  .cta p {
+    margin-bottom: 25px;
+    opacity: 0.9;
+  }
+
+  .cta .primary {
+    background: white;
+    color: #176b87;
+  }
+
+  footer {
+    padding: 35px 0;
+    background: #102d38;
+    color: white;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  footer p {
+    margin: 5px 0 0;
+    color: #b8c8ce;
+  }
+
+  @media (max-width: 800px) {
+    nav {
+      display: none;
+    }
+
+    .hero {
+      padding: 70px 0;
+    }
+
+    .listing-grid,
+    .category-grid,
+    .steps {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+      flex-direction: column;
+    }
+  }
+</style>
