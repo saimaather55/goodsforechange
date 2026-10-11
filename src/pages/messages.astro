@@ -1,0 +1,325 @@
+---
+import Navbar from "../components/Navbar.astro";
+
+const title = "Messages | GoodsForExchange";
+const description = "View your exchange conversations.";
+---
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>{title}</title>
+
+<meta name="description" content={description} />
+
+
+<style is:global>
+
+*{
+box-sizing:border-box;
+}
+
+
+body{
+margin:0;
+font-family:Inter,system-ui,sans-serif;
+background:#f7fafb;
+color:#172033;
+}
+
+
+.container{
+width:min(900px,calc(100% - 40px));
+margin:auto;
+}
+
+
+main{
+padding:50px 0;
+}
+
+
+.page-title{
+margin-bottom:30px;
+}
+
+
+.message-card{
+
+background:white;
+border:1px solid #dfe8eb;
+border-radius:14px;
+padding:20px;
+margin-bottom:15px;
+
+}
+
+
+.message-card h3{
+
+margin:0 0 10px;
+
+}
+
+
+.last-message{
+
+color:#687588;
+margin-bottom:15px;
+
+}
+
+
+.button{
+
+display:inline-block;
+padding:10px 18px;
+border-radius:8px;
+background:#176b87;
+color:white;
+font-weight:700;
+text-decoration:none;
+
+}
+
+
+.empty{
+
+background:white;
+padding:30px;
+border-radius:12px;
+border:1px solid #dfe8eb;
+
+}
+
+
+footer{
+
+padding:30px 0;
+background:#102d38;
+color:white;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<Navbar />
+
+
+<main>
+
+<div class="container">
+
+
+<h1 class="page-title">
+My Messages
+</h1>
+
+
+<div id="messages-list">
+
+<p>
+Loading messages...
+</p>
+
+
+</div>
+
+
+</div>
+
+</main>
+
+
+
+<footer>
+
+<div class="container">
+
+<strong>
+GoodsForExchange
+</strong>
+
+<p>
+Exchange what you have for what you want.
+</p>
+
+</div>
+
+</footer>
+
+
+
+
+<script>
+
+import { createClient } from "@supabase/supabase-js";
+
+
+const supabase=createClient(
+
+import.meta.env.PUBLIC_SUPABASE_URL,
+
+import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+
+);
+
+
+
+const list =
+document.querySelector("#messages-list");
+
+
+
+async function loadMessages(){
+
+
+const {
+data:{user}
+}=await supabase.auth.getUser();
+
+
+
+if(!user){
+
+list.innerHTML=
+"<div class='empty'>Please login first.</div>";
+
+return;
+
+}
+
+
+
+const {data,error}=await supabase
+
+.from("messages")
+
+.select(`
+listing_id,
+content,
+created_at,
+listings(
+title
+)
+`)
+
+.or(
+`sender_id.eq.${user.id},receiver_id.eq.${user.id}`
+)
+
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+
+if(error){
+
+console.log(error);
+
+list.innerHTML=
+"<div class='empty'>Unable to load messages.</div>";
+
+return;
+
+}
+
+
+
+if(!data || data.length===0){
+
+list.innerHTML=
+"<div class='empty'>No conversations yet.</div>";
+
+return;
+
+}
+
+
+// Group messages by listing
+
+const conversations = {};
+
+
+data.forEach(msg=>{
+
+if(!conversations[msg.listing_id]){
+
+conversations[msg.listing_id]=msg;
+
+}
+
+});
+
+
+
+list.innerHTML = Object.values(conversations).map(msg=>{
+
+
+return `
+
+<div class="message-card">
+
+
+<h3>
+${msg.listings?.title || "Exchange Item"}
+</h3>
+
+
+<div class="last-message">
+
+${msg.content}
+
+</div>
+
+
+<a class="button"
+
+href="/chat/?listing=${msg.listing_id}"
+
+>
+
+Open Chat
+
+</a>
+
+
+</div>
+
+
+`;
+
+
+}).join("");
+
+
+
+}
+
+
+
+loadMessages();
+
+
+</script>
+
+
+</body>
+
+</html>

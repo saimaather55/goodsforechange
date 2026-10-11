@@ -1,0 +1,215 @@
+---
+---
+
+<header class="site-header">
+
+  <div class="container nav">
+
+    <a href="/" class="logo">
+      GoodsForExchange
+    </a>
+
+
+  <nav>
+
+  <a href="/">
+    Home
+  </a>
+
+  <a href="/#categories">
+    Categories
+  </a>
+
+  <a href="/#how-it-works">
+    How It Works
+  </a>
+
+  <a href="/post-item/">
+    Post an Item
+  </a>
+
+  <a href="/my-listings/">
+    My Listings
+  </a>
+
+  <a href="/messages/">
+    Messages
+  </a>
+
+  <span id="auth-links">
+    Loading...
+  </span>
+
+</nav>
+
+  </div>
+
+</header>
+
+
+<script>
+
+import { createClient } from "@supabase/supabase-js";
+
+
+const supabase = createClient(
+
+import.meta.env.PUBLIC_SUPABASE_URL,
+
+import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+
+);
+
+
+
+const authLinks =
+document.querySelector("#auth-links");
+
+
+
+async function updateAuth(){
+
+
+const {
+data:{user}
+}
+=
+await supabase.auth.getUser();
+
+
+
+if(!authLinks) return;
+
+
+
+if(user){
+
+
+authLinks.innerHTML = `
+
+<a href="#" id="logout-btn">
+Logout
+</a>
+
+`;
+
+
+
+document
+.querySelector("#logout-btn")
+?.addEventListener(
+"click",
+async(e)=>{
+
+e.preventDefault();
+
+await supabase.auth.signOut();
+
+window.location.href="/";
+
+}
+
+);
+
+
+}else{
+
+
+authLinks.innerHTML = `
+
+<a href="/login/">
+Login
+</a>
+
+`;
+
+}
+
+
+}
+
+
+
+updateAuth();
+
+
+</script>
+
+
+<style>
+
+.site-header{
+
+background:white;
+border-bottom:1px solid #e4eaee;
+
+}
+
+
+.container{
+
+width:min(1320px,calc(100% - 40px));
+margin:auto;
+
+}
+
+
+.nav{
+
+min-height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:30px;
+
+}
+
+
+.logo{
+
+font-size:21px;
+font-weight:800;
+color:#176b87;
+text-decoration:none;
+
+}
+
+
+nav{
+
+display:flex;
+align-items:center;
+gap:24px;
+font-size:15px;
+font-weight:600;
+
+}
+
+
+nav a{
+
+text-decoration:none;
+color:#172033;
+
+}
+
+
+nav a:hover{
+
+color:#176b87;
+
+}
+
+
+@media(max-width:800px){
+
+nav{
+
+gap:12px;
+flex-wrap:wrap;
+
+}
+
+}
+
+</style>

@@ -1,0 +1,168 @@
+---
+const title = "Login | GoodsForExchange";
+const description = "Login to your GoodsForExchange account.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+
+  <body>
+    <main class="auth-page">
+      <div class="auth-card">
+        <a href="/" class="logo">GoodsForExchange</a>
+
+        <h1>Login</h1>
+        <p>Login to post and manage your exchange listings.</p>
+
+        <form id="login-form">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            required
+          />
+
+          <label for="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Your password"
+            required
+          />
+
+          <button type="submit">Login</button>
+
+          <p id="message"></p>
+        </form>
+
+        <p>
+          Don't have an account?
+          <a href="/signup/">Create an account</a>
+        </p>
+      </div>
+    </main>
+  </body>
+</html>
+
+<script>
+  import { createClient } from "@supabase/supabase-js";
+
+  const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+  const form = document.querySelector("#login-form");
+  const message = document.querySelector("#message");
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!form || !message) return;
+
+    message.textContent = "Logging in...";
+
+    const formData = new FormData(form);
+
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error(error);
+      message.textContent = error.message;
+      return;
+    }
+
+    window.location.href = "/post-item/";
+  });
+</script>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f7f8fa;
+    color: #222;
+  }
+
+  .auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .auth-card {
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    padding: 36px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    text-decoration: none;
+  }
+
+  h1 {
+    margin: 28px 0 8px;
+  }
+
+  label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 7px;
+    font-weight: 600;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 13px;
+    border: 0;
+    border-radius: 6px;
+    background: #222;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  #message {
+    margin-top: 15px;
+  }
+
+  a {
+    color: #222;
+  }
+</style>

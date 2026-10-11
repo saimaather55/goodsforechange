@@ -11,6 +11,238 @@ const description =
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content={description} />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        color: #172033;
+        background: #f7fafb;
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        width: min(760px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        background: white;
+        border-bottom: 1px solid #e4eaee;
+      }
+
+      .nav {
+        width: min(1120px, calc(100% - 40px));
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        color: #176b87;
+        font-size: 21px;
+        font-weight: 800;
+      }
+
+      nav {
+        display: flex;
+        gap: 24px;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      nav a:hover {
+        color: #176b87;
+      }
+
+      .page-header {
+        padding: 70px 0 40px;
+        text-align: center;
+        background: white;
+      }
+
+      .eyebrow {
+        color: #176b87;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 8px 0;
+        font-size: 48px;
+        line-height: 1.1;
+      }
+
+      .page-header p {
+        margin: 0;
+        color: #687588;
+        font-size: 18px;
+      }
+
+      .form-section {
+        padding: 50px 0 80px;
+      }
+
+      .item-form {
+        padding: 32px;
+        border: 1px solid #e0e7eb;
+        border-radius: 14px;
+        background: white;
+        box-shadow: 0 8px 30px rgba(20, 40, 50, 0.05);
+      }
+
+      .form-group {
+        margin-bottom: 22px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: 700;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid #ccd7de;
+        border-radius: 8px;
+        background: white;
+        color: #172033;
+        font: inherit;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: 2px solid #b9dce6;
+        border-color: #176b87;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      small {
+        display: block;
+        margin-top: 6px;
+        color: #687588;
+      }
+
+      .notice {
+        margin: 25px 0;
+        padding: 18px;
+        border-radius: 8px;
+        background: #fff8e8;
+      }
+
+      .notice strong {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .notice p {
+        margin: 0;
+        color: #625b4d;
+        font-size: 14px;
+      }
+
+      .expiry-notice {
+        margin: 20px 0 25px;
+        padding: 18px;
+        border-radius: 8px;
+        background: #eef7fa;
+        border: 1px solid #cfe5eb;
+      }
+
+      .expiry-notice strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #176b87;
+      }
+
+      .expiry-notice p {
+        margin: 0;
+        color: #4f6570;
+        font-size: 14px;
+      }
+
+      .checkbox {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        margin-bottom: 25px;
+        font-weight: 400;
+      }
+
+      .checkbox input {
+        width: auto;
+        margin-top: 6px;
+      }
+
+      .button {
+        width: 100%;
+        padding: 14px 20px;
+        border: 0;
+        border-radius: 8px;
+        background: #176b87;
+        color: white;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        background: #12566d;
+      }
+
+      .message {
+        margin: 18px 0 0;
+        color: #176b87;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      footer {
+        padding: 35px 0;
+        background: #102d38;
+        color: white;
+      }
+
+      footer p {
+        margin: 5px 0 0;
+        color: #b8c8ce;
+      }
+
+      @media (max-width: 700px) {
+        nav {
+          display: none;
+        }
+
+        h1 {
+          font-size: 38px;
+        }
+
+        .item-form {
+          padding: 22px;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -56,13 +288,6 @@ const description =
               <label for="category">Category</label>
               <select id="category" name="category" required>
                 <option value="">Select a category</option>
-                <option value="electronics">Electronics</option>
-                <option value="furniture">Furniture</option>
-                <option value="sports">Sports & Outdoors</option>
-                <option value="games">Games & Hobbies</option>
-                <option value="home">Home & Garden</option>
-                <option value="clothing">Clothing & Accessories</option>
-                <option value="other">Other</option>
               </select>
             </div>
 
@@ -132,6 +357,15 @@ const description =
               </p>
             </div>
 
+            <div class="expiry-notice">
+              <strong>Listing duration</strong>
+              <p>
+                Your listing will remain active for 15 days. After 15 days,
+                it will automatically expire and no longer appear in active
+                listings. You can relist it later.
+              </p>
+            </div>
+
             <label class="checkbox">
               <input type="checkbox" required />
               <span>
@@ -156,230 +390,9 @@ const description =
         <p>Exchange what you have for what you want.</p>
       </div>
     </footer>
+
+   
+    <script src="../scripts/post-item.js"></script>
   </body>
 </html>
 
-<script>
-  const form = document.querySelector("#item-form");
-  const message = document.querySelector("#message");
-
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    if (message) {
-      message.textContent =
-        "Your listing form is ready. We will connect it to your account and database next.";
-    }
-  });
-</script>
-
-<style>
-  :global(*) {
-    box-sizing: border-box;
-  }
-
-  :global(body) {
-    margin: 0;
-    font-family:
-      Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: #172033;
-    background: #f7fafb;
-    line-height: 1.6;
-  }
-
-  :global(a) {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .container {
-    width: min(760px, calc(100% - 40px));
-    margin: 0 auto;
-  }
-
-  .site-header {
-    background: white;
-    border-bottom: 1px solid #e4eaee;
-  }
-
-  .nav {
-    width: min(1120px, calc(100% - 40px));
-    min-height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .logo {
-    color: #176b87;
-    font-size: 21px;
-    font-weight: 800;
-  }
-
-  nav {
-    display: flex;
-    gap: 24px;
-    font-size: 15px;
-    font-weight: 600;
-  }
-
-  nav a:hover {
-    color: #176b87;
-  }
-
-  .page-header {
-    padding: 70px 0 40px;
-    text-align: center;
-    background: white;
-  }
-
-  .eyebrow {
-    color: #176b87;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  h1 {
-    margin: 8px 0;
-    font-size: 48px;
-    line-height: 1.1;
-  }
-
-  .page-header p {
-    margin: 0;
-    color: #687588;
-    font-size: 18px;
-  }
-
-  .form-section {
-    padding: 50px 0 80px;
-  }
-
-  .item-form {
-    padding: 32px;
-    border: 1px solid #e0e7eb;
-    border-radius: 14px;
-    background: white;
-    box-shadow: 0 8px 30px rgba(20, 40, 50, 0.05);
-  }
-
-  .form-group {
-    margin-bottom: 22px;
-  }
-
-  label {
-    display: block;
-    margin-bottom: 7px;
-    font-weight: 700;
-  }
-
-  input,
-  select,
-  textarea {
-    width: 100%;
-    padding: 13px 14px;
-    border: 1px solid #ccd7de;
-    border-radius: 8px;
-    background: white;
-    color: #172033;
-    font: inherit;
-  }
-
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: 2px solid #b9dce6;
-    border-color: #176b87;
-  }
-
-  textarea {
-    resize: vertical;
-  }
-
-  small {
-    display: block;
-    margin-top: 6px;
-    color: #687588;
-  }
-
-  .notice {
-    margin: 25px 0;
-    padding: 18px;
-    border-radius: 8px;
-    background: #fff8e8;
-  }
-
-  .notice strong {
-    display: block;
-    margin-bottom: 5px;
-  }
-
-  .notice p {
-    margin: 0;
-    color: #625b4d;
-    font-size: 14px;
-  }
-
-  .checkbox {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    margin-bottom: 25px;
-    font-weight: 400;
-  }
-
-  .checkbox input {
-    width: auto;
-    margin-top: 6px;
-  }
-
-  .button {
-    width: 100%;
-    padding: 14px 20px;
-    border: 0;
-    border-radius: 8px;
-    background: #176b87;
-    color: white;
-    font: inherit;
-    font-weight: 800;
-    cursor: pointer;
-  }
-
-  .button:hover {
-    background: #12566d;
-  }
-
-  .message {
-    margin: 18px 0 0;
-    color: #176b87;
-    font-weight: 600;
-    text-align: center;
-  }
-
-  footer {
-    padding: 35px 0;
-    background: #102d38;
-    color: white;
-  }
-
-  footer p {
-    margin: 5px 0 0;
-    color: #b8c8ce;
-  }
-
-  @media (max-width: 700px) {
-    nav {
-      display: none;
-    }
-
-    h1 {
-      font-size: 38px;
-    }
-
-    .item-form {
-      padding: 22px;
-    }
-  }
-</style>

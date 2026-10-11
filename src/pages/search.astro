@@ -1,0 +1,675 @@
+---
+const title = "Search Items | GoodsForExchange";
+const description = "Find items available for exchange.";
+---
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>{title}</title>
+
+<meta name="description" content={description} />
+
+
+<style is:global>
+
+* {
+  box-sizing: border-box;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: #ffffff;
+  color: #172033;
+  line-height: 1.6;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+.container {
+  width: min(1320px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+
+/* HEADER */
+
+.site-header {
+  border-bottom: 1px solid #e8edf2;
+  background: white;
+}
+
+
+.nav {
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+
+.logo {
+  color:#176b87;
+  font-size:21px;
+  font-weight:800;
+}
+
+
+nav {
+  display:flex;
+  gap:24px;
+  font-size:15px;
+  font-weight:600;
+}
+
+
+/* SEARCH */
+
+.search-section {
+
+padding:50px 0;
+
+background:#f7fafb;
+
+}
+
+
+.search-box {
+
+display:flex;
+gap:10px;
+max-width:700px;
+margin:0 auto;
+
+}
+
+
+.search-box input {
+
+flex:1;
+padding:14px 16px;
+border:1px solid #ccd7de;
+border-radius:10px;
+font-size:16px;
+
+}
+
+
+.search-box button {
+
+padding:14px 25px;
+border:none;
+border-radius:10px;
+background:#176b87;
+color:white;
+font-weight:700;
+cursor:pointer;
+
+}
+
+
+
+/* RESULTS */
+
+
+.section {
+
+padding:60px 0;
+
+}
+
+
+.section-heading {
+
+margin-bottom:30px;
+
+}
+
+
+
+.listing-grid {
+
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:20px;
+
+}
+
+
+
+.listing-card {
+
+border:1px solid #e1e8ed;
+border-radius:16px;
+background:white;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+transition:.2s;
+
+}
+
+
+.listing-card:hover {
+
+transform:translateY(-5px);
+box-shadow:0 12px 30px rgba(20,40,50,.1);
+
+}
+
+
+
+.listing-image-frame {
+
+height:200px;
+background:#f1f6f8;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+
+}
+
+
+.listing-image {
+
+width:100%;
+height:100%;
+object-fit:cover;
+
+}
+
+
+.listing-content {
+
+padding:16px;
+
+}
+
+
+.condition {
+
+display:inline-block;
+background:#eaf6f8;
+color:#176b87;
+font-size:12px;
+font-weight:800;
+padding:3px 9px;
+border-radius:999px;
+
+}
+
+
+.listing-title {
+
+margin:10px 0 6px;
+font-size:18px;
+
+}
+
+
+.listing-description {
+
+font-size:14px;
+color:#687588;
+
+}
+
+
+.listing-meta {
+
+margin-top:12px;
+padding-top:10px;
+border-top:1px solid #edf1f3;
+font-size:13px;
+color:#687588;
+
+}
+
+
+footer {
+
+padding:30px 0;
+background:#102d38;
+color:white;
+
+}
+
+
+
+@media(max-width:1100px){
+
+.listing-grid{
+
+grid-template-columns:repeat(3,1fr);
+
+}
+
+}
+
+
+@media(max-width:800px){
+
+.listing-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+
+@media(max-width:560px){
+
+.listing-grid{
+
+grid-template-columns:1fr;
+
+}
+
+
+.search-box{
+
+flex-direction:column;
+
+}
+
+}
+
+
+</style>
+
+</head>
+<body>
+
+<header class="site-header">
+
+<div class="container nav">
+
+<a href="/" class="logo">
+GoodsForExchange
+</a>
+
+
+<nav>
+
+<a href="/">
+Home
+</a>
+
+<a href="/post-item/">
+Post Item
+</a>
+
+<a href="/my-listings/">
+My Listings
+</a>
+
+</nav>
+
+</div>
+
+</header>
+
+
+
+<section class="search-section">
+
+<div class="container">
+
+
+<form action="/search/" method="GET" class="search-box">
+
+<input
+type="text"
+name="q"
+id="search-input"
+placeholder="Search items..."
+/>
+
+
+<button type="submit">
+Search
+</button>
+
+
+</form>
+
+
+</div>
+
+</section>
+
+
+
+<main>
+
+<section class="section">
+
+<div class="container">
+
+
+<div class="section-heading">
+
+<h1 id="search-title">
+Search Results
+</h1>
+
+
+<p id="search-info">
+Loading results...
+</p>
+
+
+</div>
+
+
+
+<div id="results-grid" class="listing-grid">
+
+</div>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+
+
+<footer>
+
+<div class="container">
+
+<strong>
+GoodsForExchange
+</strong>
+
+
+<p>
+Exchange what you have for what you want.
+</p>
+
+
+</div>
+
+</footer>
+
+
+
+
+
+<script>
+
+import { createClient } from "@supabase/supabase-js";
+
+
+const supabase = createClient(
+
+import.meta.env.PUBLIC_SUPABASE_URL,
+
+import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+
+);
+
+
+
+const params = new URLSearchParams(
+window.location.search
+);
+
+
+const query = params.get("q") || "";
+
+
+
+const titleEl =
+document.querySelector("#search-title");
+
+
+const infoEl =
+document.querySelector("#search-info");
+
+
+const gridEl =
+document.querySelector("#results-grid");
+
+
+const inputEl =
+document.querySelector("#search-input");
+
+
+
+if(inputEl){
+
+inputEl.value = query;
+
+}
+
+
+
+function capitalize(text){
+
+if(!text) return "";
+
+return text
+.charAt(0)
+.toUpperCase()
++
+text.slice(1);
+
+}
+
+
+
+
+
+async function loadSearchResults(){
+
+
+if(!query){
+
+
+infoEl.textContent =
+"Please search for an item.";
+
+
+return;
+
+}
+
+
+
+titleEl.textContent =
+`Search Results For "${capitalize(query)}"`;
+
+
+
+const searchText =
+`%${query}%`;
+
+
+
+const {data,error}=await supabase
+
+.from("listings")
+
+.select(`
+id,
+title,
+description,
+city,
+condition,
+listing_images(image_url)
+`)
+
+.or(
+`title.ilike.${searchText},description.ilike.${searchText},city.ilike.${searchText},desired_exchange.ilike.${searchText}`
+)
+
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+
+if(error){
+
+console.error(error);
+
+infoEl.textContent =
+"Unable to load results.";
+
+return;
+
+}
+
+
+
+if(!data || data.length===0){
+
+
+infoEl.textContent =
+"No items found.";
+
+
+return;
+
+
+}
+
+
+
+infoEl.textContent =
+`${data.length} items found`;
+
+
+
+
+gridEl.innerHTML =
+data.map(item=>{
+
+
+const image =
+
+item.listing_images &&
+item.listing_images.length > 0
+
+?
+
+item.listing_images[0].image_url
+
+:
+
+null;
+
+
+
+return `
+
+
+<a href="/listing/?id=${item.id}" class="listing-card">
+
+
+<div class="listing-image-frame">
+
+
+${
+image
+
+?
+
+`<img class="listing-image" src="${image}" alt="${item.title}">`
+
+:
+
+`📦`
+
+}
+
+
+</div>
+
+
+
+
+<div class="listing-content">
+
+
+<span class="condition">
+
+${capitalize(item.condition || "Good")}
+
+</span>
+
+
+
+<h3 class="listing-title">
+
+${capitalize(item.title)}
+
+</h3>
+
+
+
+<p class="listing-description">
+
+${capitalize(item.description || "")}
+
+</p>
+
+
+
+<div class="listing-meta">
+
+📍 ${capitalize(item.city || "Not specified")}
+
+</div>
+
+
+
+</div>
+
+
+</a>
+
+
+`;
+
+
+}).join("");
+
+
+
+}
+
+
+
+loadSearchResults();
+
+
+
+</script>
+
+
+</body>
+
+</html>

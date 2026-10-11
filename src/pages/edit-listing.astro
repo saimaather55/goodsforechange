@@ -1,0 +1,237 @@
+<!doctype html>
+
+<html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width" /> <title>GoodsForExchange | Edit Listing</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f7fafb;
+    color: #24343b;
+  }
+
+  .container {
+    width: min(100% - 40px, 800px);
+    margin: 0 auto;
+  }
+
+  header {
+    background: white;
+    border-bottom: 1px solid #e3eaed;
+    padding: 18px 0;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    color: #176b87;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  nav {
+    display: flex;
+    gap: 18px;
+  }
+
+  nav a {
+    color: #334e5c;
+    text-decoration: none;
+  }
+
+  main {
+    padding: 50px 0;
+  }
+
+  .form-card {
+    background: white;
+    border: 1px solid #dfe8eb;
+    border-radius: 10px;
+    padding: 30px;
+  }
+
+  label {
+    display: block;
+    margin: 18px 0 7px;
+    font-weight: 600;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px;
+    border: 1px solid #ccd9de;
+    border-radius: 6px;
+    font: inherit;
+  }
+
+  textarea {
+    min-height: 130px;
+    resize: vertical;
+  }
+
+  button {
+    margin-top: 25px;
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 6px;
+    background: #176b87;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  #message {
+    margin-top: 20px;
+    font-weight: 600;
+  }
+
+  .back {
+    display: inline-block;
+    margin-top: 20px;
+    color: #176b87;
+  }
+
+  #photo-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+  }
+
+  #photo-preview img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #dfe8eb;
+  }
+</style>
+
+
+  </head>
+
+  <body>
+    <header>
+      <div class="container nav">
+        <a href="/" class="logo">GoodsForExchange</a>
+
+
+    <nav>
+      <a href="/">Home</a>
+      <a href="/my-listings/">My Listings</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h1>Edit Listing</h1>
+
+    <div class="form-card">
+      <form id="edit-form">
+
+        <label for="title">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          required
+        />
+
+        <label for="category">Category</label>
+        <select
+          id="category"
+          name="category"
+          required
+        >
+          <option value="">Loading categories...</option>
+        </select>
+
+        <label for="city">City</label>
+        <input
+          type="text"
+          id="city"
+          name="city"
+          required
+        />
+
+        <label for="condition">Condition</label>
+        <select
+          id="condition"
+          name="condition"
+          required
+        >
+          <option value="new">New</option>
+          <option value="like-new">Like-new</option>
+          <option value="good">Good</option>
+          <option value="fair">Fair</option>
+          <option value="used">Used</option>
+        </select>
+
+        <label for="exchange">
+          What are you looking for?
+        </label>
+
+        <input
+          type="text"
+          id="exchange"
+          name="exchange"
+        />
+
+        <label for="photos">
+          Listing Photos
+        </label>
+
+        <input
+          type="file"
+          id="photos"
+          name="photos"
+          accept="image/jpeg,image/png,image/webp"
+          multiple
+        />
+
+        <p style="font-size: 14px; color: #667781;">
+          You can select multiple photos. Use clear photos that accurately show your item.
+        </p>
+
+        <div id="photo-preview"></div>
+
+        <label for="description">
+          Description
+        </label>
+
+        <textarea
+          id="description"
+          name="description"
+          required
+        ></textarea>
+
+        <button type="submit">
+          Save Changes
+        </button>
+
+        <p id="message"></p>
+      </form>
+
+      <a
+        class="back"
+        href="/my-listings/"
+      >
+        ← Back to My Listings
+      </a>
+    </div>
+  </div>
+</main>
+
+<script src="../scripts/edit-listing.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,1000 @@
+---
+import Navbar from "../components/Navbar.astro";
+const title = "Listing | GoodsForExchange";
+const description =
+  "View an item available for exchange on GoodsForExchange.";
+---
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+
+<title>{title}</title>
+
+<meta name="description" content={description} />
+
+
+<style is:global>
+
+*{
+box-sizing:border-box;
+}
+
+
+body{
+
+margin:0;
+font-family:
+Inter,
+system-ui,
+sans-serif;
+
+background:#f7fafb;
+color:#172033;
+line-height:1.6;
+
+}
+
+
+
+a{
+
+text-decoration:none;
+color:inherit;
+
+}
+
+
+
+.container{
+
+width:min(1120px,calc(100% - 40px));
+margin:auto;
+
+}
+
+
+
+/* HEADER */
+
+
+.site-header{
+
+background:white;
+border-bottom:1px solid #e4eaee;
+
+}
+
+
+.nav{
+
+min-height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+}
+
+
+.logo{
+
+color:#176b87;
+font-size:21px;
+font-weight:800;
+
+}
+
+
+
+nav{
+
+display:flex;
+gap:24px;
+font-weight:600;
+
+}
+
+
+nav a:hover{
+
+color:#176b87;
+
+}
+
+
+
+/* PAGE */
+
+
+.page-header{
+
+padding:60px 0 40px;
+background:white;
+
+}
+
+
+.eyebrow{
+
+color:#176b87;
+font-size:13px;
+font-weight:800;
+text-transform:uppercase;
+letter-spacing:.08em;
+
+}
+
+
+h1{
+
+margin:8px 0;
+font-size:44px;
+
+}
+
+
+
+/* LISTING */
+
+
+.listing-section{
+
+padding:50px 0 80px;
+
+}
+
+
+
+.listing-card{
+
+background:white;
+border:1px solid #e0e7eb;
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 8px 30px rgba(20,40,50,.05);
+
+}
+
+
+
+/* GALLERY */
+
+
+.gallery{
+
+background:#eef5f7;
+padding:20px;
+
+}
+
+
+
+.main-image{
+
+width:100%;
+height:500px;
+object-fit:contain;
+border-radius:12px;
+background:white;
+
+}
+
+
+
+.thumbnails{
+
+display:flex;
+gap:12px;
+margin-top:15px;
+overflow:auto;
+
+}
+
+
+
+.thumbnail{
+
+width:90px;
+height:90px;
+object-fit:cover;
+border-radius:8px;
+cursor:pointer;
+border:2px solid transparent;
+
+}
+
+
+.thumbnail:hover{
+
+border-color:#176b87;
+
+}
+
+
+
+
+.content{
+
+padding:32px;
+
+}
+
+
+
+.condition{
+
+display:inline-block;
+color:#176b87;
+background:#eaf6f8;
+padding:4px 10px;
+border-radius:20px;
+font-size:13px;
+font-weight:800;
+
+}
+
+
+
+.content h2{
+
+font-size:32px;
+margin:12px 0 20px;
+
+}
+
+
+
+.description{
+
+color:#586579;
+font-size:17px;
+
+}
+
+
+
+
+.details{
+
+display:grid;
+gap:15px;
+margin:30px 0;
+padding:20px;
+background:#f7fafb;
+border-radius:12px;
+
+}
+
+
+
+.details div{
+
+display:flex;
+justify-content:space-between;
+gap:20px;
+
+}
+
+
+
+.details span{
+
+color:#687588;
+
+}
+
+
+
+/* SELLER */
+
+
+.seller{
+
+padding:20px;
+background:#eef7fa;
+border-radius:10px;
+margin-bottom:25px;
+
+}
+
+
+.seller strong{
+
+display:block;
+margin-bottom:5px;
+
+}
+
+
+
+/* BUTTON */
+
+
+.button{
+
+display:inline-block;
+padding:13px 22px;
+border-radius:8px;
+background:#176b87;
+color:white;
+font-weight:800;
+
+}
+
+
+.button:hover{
+
+background:#12566d;
+
+}
+
+
+
+/* SAFETY */
+
+
+.notice{
+
+margin:25px 0;
+padding:18px;
+background:#fff8e8;
+border-radius:10px;
+
+}
+
+
+
+.notice p{
+
+margin:0;
+color:#625b4d;
+
+}
+
+
+
+/* SIMILAR */
+
+
+.similar{
+
+margin-top:50px;
+
+}
+
+
+
+.similar-grid{
+
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+
+}
+
+
+
+.similar-card{
+
+background:white;
+border:1px solid #dfe8eb;
+border-radius:12px;
+padding:15px;
+
+}
+
+
+
+footer{
+
+padding:35px 0;
+background:#102d38;
+color:white;
+
+}
+
+
+
+@media(max-width:800px){
+
+nav{
+
+display:none;
+
+}
+
+
+h1{
+
+font-size:36px;
+
+}
+
+
+.main-image{
+
+height:350px;
+
+}
+
+
+.similar-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+
+}
+
+
+
+@media(max-width:500px){
+
+
+.similar-grid{
+
+grid-template-columns:1fr;
+
+}
+
+
+.details div{
+
+flex-direction:column;
+
+}
+
+}
+
+</style>
+
+
+</head>
+<body>
+
+<Navbar />
+
+
+
+
+<main>
+
+
+<section class="page-header">
+
+<div class="container">
+
+<span class="eyebrow">
+Exchange Listing
+</span>
+
+
+<h1 id="listing-title">
+Loading...
+</h1>
+
+
+</div>
+
+</section>
+
+
+
+
+<section class="listing-section">
+
+
+<div class="container">
+
+
+<div id="listing-container">
+
+<p>
+Loading listing details...
+</p>
+
+
+</div>
+
+
+<div id="similar-container" class="similar">
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+<footer>
+
+<div class="container">
+
+<strong>
+GoodsForExchange
+</strong>
+
+
+<p>
+Exchange what you have for what you want.
+</p>
+
+
+</div>
+
+</footer>
+
+
+
+
+
+<script>
+
+import { createClient } from "@supabase/supabase-js";
+
+
+const supabase=createClient(
+
+import.meta.env.PUBLIC_SUPABASE_URL,
+
+import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+
+);
+
+
+
+
+function escapeHtml(value){
+
+return String(value ?? "")
+
+.replace(/&/g,"&amp;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/'/g,"&#039;");
+
+}
+
+
+
+
+
+async function loadListing(){
+
+
+const id =
+new URLSearchParams(window.location.search)
+.get("id");
+
+
+
+const titleEl =
+document.querySelector("#listing-title");
+
+
+const container =
+document.querySelector("#listing-container");
+
+
+
+if(!id){
+
+container.innerHTML =
+"<p>Listing not found.</p>";
+
+return;
+
+}
+
+
+
+
+
+const {data:listing,error}=await supabase
+
+.from("listings")
+
+.select("*")
+
+.eq("id",id)
+
+.single();
+
+
+
+
+if(error || !listing){
+
+
+container.innerHTML =
+"<p>Unable to load listing.</p>";
+
+return;
+
+}
+
+
+
+titleEl.textContent =
+listing.title || "Untitled Item";
+
+
+
+
+
+const {data:images}=await supabase
+
+.from("listing_images")
+
+.select("image_url")
+
+.eq("listing_id",id)
+
+.order("sort_order");
+
+
+
+
+let gallery = "";
+
+
+
+if(images && images.length){
+
+
+gallery = `
+
+<div class="gallery">
+
+
+<img 
+id="main-image"
+class="main-image"
+src="${images[0].image_url}"
+alt="${escapeHtml(listing.title)}"
+/>
+
+
+
+<div class="thumbnails">
+
+${images.map(img=>`
+
+<img
+
+class="thumbnail"
+
+src="${img.image_url}"
+
+onclick="changeImage('${img.image_url}')"
+
+/>
+
+`).join("")}
+
+
+</div>
+
+
+</div>
+
+`;
+
+
+}else{
+
+
+gallery = `
+
+<div class="gallery">
+
+<div class="main-image">
+
+📦
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+
+
+const postedDate =
+listing.created_at
+?
+new Date(listing.created_at)
+.toLocaleDateString()
+:
+"Not available";
+
+
+
+
+
+container.innerHTML = `
+
+
+<article class="listing-card">
+
+
+${gallery}
+
+
+
+<div class="content">
+
+
+<span class="condition">
+
+${escapeHtml(
+listing.condition || "Good"
+)}
+
+</span>
+
+
+
+<h2>
+
+${escapeHtml(listing.title)}
+
+</h2>
+
+
+
+
+<p class="description">
+
+${escapeHtml(listing.description)}
+
+</p>
+
+
+
+
+<div class="details">
+
+
+<div>
+
+<strong>
+Location
+</strong>
+
+<span>
+📍 ${escapeHtml(listing.city || "Not specified")}
+</span>
+
+</div>
+
+
+
+<div>
+
+<strong>
+Looking For
+</strong>
+
+<span>
+🔄 ${escapeHtml(
+listing.desired_exchange || "Open offers"
+)}
+</span>
+
+</div>
+
+
+
+<div>
+
+<strong>
+Posted
+</strong>
+
+<span>
+${postedDate}
+</span>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div class="seller">
+
+<strong>
+Seller Information
+</strong>
+
+<p>
+GoodsForExchange User
+</p>
+
+</div>
+
+
+
+
+
+<div class="notice">
+
+<strong>
+Safety Notice
+</strong>
+
+<p>
+Please inspect items and verify details before completing an exchange.
+</p>
+
+
+</div>
+
+
+
+<a
+
+class="button"
+
+href="/chat/?listing=${listing.id}&owner=${listing.user_id}"
+
+>
+
+💬 Message Owner
+
+</a>
+
+
+
+</div>
+
+
+
+</article>
+
+
+`;
+
+
+
+loadSimilar(listing.category_id,id);
+
+
+
+}
+
+
+
+
+
+async function loadSimilar(categoryId,currentId){
+
+
+const box =
+document.querySelector("#similar-container");
+
+
+if(!box || !categoryId) return;
+
+
+
+
+const {data}=await supabase
+
+.from("listings")
+
+.select("id,title,city")
+
+.eq("category_id",categoryId)
+
+.neq("id",currentId)
+
+.limit(4);
+
+
+
+
+if(!data || !data.length)
+return;
+
+
+
+
+box.innerHTML = `
+
+
+<h2>
+You May Also Like
+</h2>
+
+
+
+<div class="similar-grid">
+
+
+${data.map(item=>`
+
+
+<a class="similar-card"
+
+href="/listing/?id=${item.id}"
+
+>
+
+
+<strong>
+${escapeHtml(item.title)}
+</strong>
+
+
+<p>
+📍 ${escapeHtml(item.city || "")}
+</p>
+
+
+</a>
+
+
+`).join("")}
+
+
+</div>
+
+
+`;
+
+
+
+}
+
+
+
+window.changeImage=function(url){
+
+const img=document.querySelector("#main-image");
+
+if(img){
+
+img.src=url;
+
+}
+
+};
+
+
+
+loadListing();
+
+
+</script>
+
+
+</body>
+
+</html>

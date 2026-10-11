@@ -1,0 +1,708 @@
+---
+const title = "My Listings | GoodsForExchange";
+const description = "Manage your GoodsForExchange listings.";
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  margin:0;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background:#f7fafb;
+  color:#172033;
+  line-height:1.6;
+}
+
+
+a {
+  color:inherit;
+  text-decoration:none;
+}
+
+
+.container {
+
+  width:min(1100px, calc(100% - 40px));
+  margin:0 auto;
+
+}
+
+
+.site-header {
+
+  background:white;
+  border-bottom:1px solid #e4eaee;
+
+}
+
+
+.nav {
+
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+
+}
+
+
+.logo {
+
+  color:#176b87;
+  font-size:21px;
+  font-weight:800;
+
+}
+
+
+nav {
+
+  display:flex;
+  gap:24px;
+  font-size:15px;
+  font-weight:600;
+
+}
+
+
+nav a:hover {
+
+  color:#176b87;
+
+}
+
+
+
+main {
+
+  padding:60px 0 80px;
+
+}
+
+
+
+h1 {
+
+  margin:0 0 10px;
+  font-size:42px;
+  line-height:1.2;
+
+}
+
+
+.intro {
+
+  color:#687588;
+  margin-bottom:35px;
+
+}
+
+
+
+.listing-grid {
+
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:20px;
+
+}
+
+
+
+.listing-card {
+
+  background:white;
+  border:1px solid #e1e8ed;
+  border-radius:16px;
+  padding:20px;
+  overflow:hidden;
+  transition:.2s ease;
+
+}
+
+
+.listing-card:hover {
+
+  transform:translateY(-5px);
+  box-shadow:0 12px 30px rgba(20,40,50,.1);
+
+}
+
+
+
+.listing-image {
+
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:15px;
+
+}
+
+
+
+.no-image {
+
+  width:100%;
+  height:220px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f1f6f8;
+  border-radius:12px;
+  font-size:60px;
+  margin-bottom:15px;
+
+}
+
+
+
+.status {
+
+  display:inline-block;
+  padding:5px 12px;
+  border-radius:999px;
+  background:#eaf6f8;
+  color:#176b87;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:12px;
+
+}
+
+
+
+.listing-card h2 {
+
+  margin:5px 0 10px;
+  font-size:22px;
+
+}
+
+
+
+.listing-card p {
+
+  color:#687588;
+
+}
+
+
+
+.button {
+
+  display:inline-block;
+  margin-top:15px;
+  margin-right:8px;
+  padding:10px 16px;
+  border-radius:8px;
+  background:#176b87;
+  color:white;
+  font-weight:700;
+
+}
+
+
+
+.empty {
+
+  background:white;
+  border:1px solid #e1e8ed;
+  border-radius:16px;
+  padding:40px;
+  text-align:center;
+
+}
+
+
+
+footer {
+
+  padding:35px 0;
+  background:#102d38;
+  color:white;
+
+}
+
+
+
+footer p {
+
+  margin:5px 0 0;
+  color:#b8c8ce;
+
+}
+
+
+
+@media(max-width:700px){
+
+nav {
+ display:none;
+}
+
+
+.listing-grid {
+
+grid-template-columns:1fr;
+
+}
+
+
+h1 {
+
+font-size:34px;
+
+}
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="site-header">
+
+<div class="container nav">
+
+<a href="/" class="logo">
+GoodsForExchange
+</a>
+
+
+<nav>
+
+<a href="/">Home</a>
+
+<a href="/post-item/">Post an Item</a>
+
+<a href="/my-listings/">My Listings</a>
+
+</nav>
+
+
+</div>
+
+</header>
+
+
+
+<main>
+
+<div class="container">
+
+<h1>
+My Listings
+</h1>
+
+
+<p class="intro">
+Manage the items you have posted on GoodsForExchange.
+</p>
+
+
+<div id="listings-container">
+
+<p>
+Loading your listings...
+</p>
+
+</div>
+
+
+</div>
+
+</main>
+<script>
+import { createClient } from "@supabase/supabase-js";
+
+
+const supabase = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
+
+
+
+const listingsContainer =
+  document.querySelector("#listings-container");
+
+
+
+async function loadMyListings(){
+
+  if(!listingsContainer) return;
+
+
+  const {
+    data:{ user }
+  } = await supabase.auth.getUser();
+
+
+
+  if(!user){
+
+    listingsContainer.innerHTML = `
+
+    <div class="empty">
+
+      <h2>Please login</h2>
+
+      <p>
+      You need to login to view your listings.
+      </p>
+
+      <a class="button" href="/login/">
+      Login
+      </a>
+
+    </div>
+
+    `;
+
+    return;
+
+  }
+
+
+
+  const { data, error } = await supabase
+
+  .from("listings")
+
+  .select(`
+
+    id,
+    title,
+    description,
+    condition,
+    city,
+    desired_exchange,
+    status,
+    expires_at,
+    created_at,
+
+    listing_images(
+      image_url,
+      sort_order
+    )
+
+  `)
+
+  .eq("user_id", user.id)
+
+  .order("created_at",{ascending:false});
+
+
+
+  if(error){
+
+    console.error(
+      "My listings error:",
+      error
+    );
+
+
+    listingsContainer.innerHTML = `
+
+    <div class="empty">
+
+    <p>
+    Unable to load your listings.
+    </p>
+
+    </div>
+
+    `;
+
+    return;
+
+  }
+
+
+
+  if(!data || data.length===0){
+
+
+    listingsContainer.innerHTML = `
+
+    <div class="empty">
+
+    <h2>
+    No listings yet
+    </h2>
+
+    <p>
+    You have not posted any items yet.
+    </p>
+
+
+    <a class="button" href="/post-item/">
+    Post an Item
+    </a>
+
+
+    </div>
+
+    `;
+
+
+    return;
+
+  }
+
+
+
+
+  listingsContainer.innerHTML = data.map((listing)=>{
+
+
+    const expiryDate =
+      listing.expires_at
+      ? new Date(listing.expires_at)
+      : null;
+
+
+
+    const isExpired =
+      expiryDate &&
+      expiryDate <= new Date();
+
+
+
+    const image =
+      listing.listing_images &&
+      listing.listing_images.length > 0
+      ? listing.listing_images[0].image_url
+      : null;
+
+
+
+    return `
+
+
+    <article class="listing-card">
+
+
+    ${
+      image
+
+      ?
+
+      `
+      <img
+      class="listing-image"
+      src="${image}"
+      alt="${listing.title}"
+      />
+      `
+
+      :
+
+      `
+      <div class="no-image">
+      📦
+      </div>
+      `
+
+    }
+
+
+
+    <span class="status">
+
+    ${
+      isExpired
+      ? "Expired"
+      : listing.status || "Active"
+    }
+
+    </span>
+
+
+
+    <h2>
+
+    ${listing.title || "Untitled item"}
+
+    </h2>
+
+
+
+    <p>
+
+    ${
+      listing.description ||
+      "No description provided."
+    }
+
+    </p>
+
+
+
+    <p>
+    📍 ${listing.city || "Location not specified"}
+    </p>
+
+
+
+    <p>
+
+    <strong>
+    Condition:
+    </strong>
+
+    ${listing.condition || "Not specified"}
+
+    </p>
+
+
+
+    ${
+      listing.desired_exchange
+
+      ?
+
+      `
+      <p>
+
+      <strong>
+      Looking for:
+      </strong>
+
+      ${listing.desired_exchange}
+
+      </p>
+      `
+
+      :
+
+      ""
+
+    }
+
+
+
+
+    ${
+      expiryDate
+
+      ?
+
+      `
+      <p>
+
+      <strong>
+      Active until:
+      </strong>
+
+      ${expiryDate.toLocaleDateString()}
+
+      </p>
+      `
+
+      :
+
+      ""
+
+    }
+
+
+
+
+    <div>
+
+
+    <a
+    class="button"
+    href="/listing/?id=${listing.id}"
+    >
+    View Listing
+    </a>
+
+
+
+    <a
+    class="button"
+    href="/edit-listing/?id=${listing.id}"
+    >
+    Edit Listing
+    </a>
+
+
+    </div>
+
+
+
+    </article>
+
+
+    `;
+
+
+  }).join("");
+
+
+
+}
+
+
+
+loadMyListings();
+
+</script>
+
+
+
+<footer>
+
+<div class="container">
+
+<strong>
+GoodsForExchange
+</strong>
+
+
+<p>
+Exchange what you have for what you want.
+</p>
+
+
+</div>
+
+</footer>
+
+
+
+</body>
+
+</html>
