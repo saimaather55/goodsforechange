@@ -9,38 +9,42 @@
       GoodsForExchange
     </a>
 
+    <button id="menu-btn" class="menu-btn">
+      ☰
+    </button>
 
-  <nav>
 
-  <a href="/">
-    Home
-  </a>
+    <nav id="nav-menu">
 
-  <a href="/#categories">
-    Categories
-  </a>
+      <a href="/">
+        Home
+      </a>
 
-  <a href="/#how-it-works">
-    How It Works
-  </a>
+      <a href="/#categories">
+        Categories
+      </a>
 
-  <a href="/post-item/">
-    Post an Item
-  </a>
+      <a href="/#how-it-works">
+        How It Works
+      </a>
 
-  <a href="/my-listings/">
-    My Listings
-  </a>
+      <a href="/post-item/">
+        Post an Item
+      </a>
 
-  <a href="/messages/">
-    Messages
-  </a>
+      <a href="/my-listings/">
+        My Listings
+      </a>
 
-  <span id="auth-links">
-    Loading...
-  </span>
+      <a href="/messages/">
+        Messages
+      </a>
 
-</nav>
+      <span id="auth-links">
+        Loading...
+      </span>
+
+    </nav>
 
   </div>
 
@@ -66,9 +70,7 @@ const authLinks =
 document.querySelector("#auth-links");
 
 
-
 async function updateAuth(){
-
 
 const {
 data:{user}
@@ -77,13 +79,10 @@ data:{user}
 await supabase.auth.getUser();
 
 
-
 if(!authLinks) return;
 
 
-
 if(user){
-
 
 authLinks.innerHTML = `
 
@@ -92,7 +91,6 @@ Logout
 </a>
 
 `;
-
 
 
 document
@@ -125,15 +123,34 @@ Login
 
 }
 
-
 }
-
 
 
 updateAuth();
 
 
+
+// mobile menu
+
+const menuBtn =
+document.querySelector("#menu-btn");
+
+const navMenu =
+document.querySelector("#nav-menu");
+
+
+menuBtn?.addEventListener(
+"click",
+()=>{
+
+navMenu.classList.toggle("open");
+
+}
+);
+
+
 </script>
+
 
 
 <style>
@@ -160,7 +177,6 @@ min-height:72px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:30px;
 
 }
 
@@ -201,14 +217,62 @@ color:#176b87;
 }
 
 
+.menu-btn{
+
+display:none;
+font-size:26px;
+background:none;
+border:none;
+cursor:pointer;
+
+}
+
+
+
 @media(max-width:800px){
+
+
+.menu-btn{
+
+display:block;
+
+}
+
+
 
 nav{
 
-gap:12px;
-flex-wrap:wrap;
+display:none;
+position:absolute;
+top:72px;
+left:0;
+width:100%;
+background:white;
+padding:20px;
+
+flex-direction:column;
+align-items:flex-start;
+
+border-bottom:1px solid #e4eaee;
 
 }
+
+
+
+nav.open{
+
+display:flex;
+
+}
+
+
+
+.logo{
+
+font-size:18px;
+
+}
+
 
 }
 
