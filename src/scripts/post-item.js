@@ -82,29 +82,48 @@ if (form instanceof HTMLFormElement) {
       expiresAt.getDate() + 15
     );
 
-    const listing = {
-      user_id: user.id,
-      title: String(
-        formData.get("title") || ""
-      ),
-      description: String(
-        formData.get("description") || ""
-      ),
-      category_id: String(
-        formData.get("category") || ""
-      ),
-      city: String(
-        formData.get("city") || ""
-      ),
-      condition: String(
-        formData.get("condition") || ""
-      ),
-      desired_exchange: String(
-        formData.get("exchange") || ""
-      ),
-      expires_at:
-        expiresAt.toISOString(),
-    };
+   const listing = {
+  user_id: user.id,
+
+  title: String(
+    formData.get("title") || ""
+  ),
+
+  description: String(
+    formData.get("description") || ""
+  ),
+
+  category_id: String(
+    formData.get("category") || ""
+  ),
+
+  country: String(
+    formData.get("country") || ""
+  ),
+
+  city: String(
+    formData.get("city") || ""
+  ),
+
+  landmark: String(
+    formData.get("landmark") || ""
+  ),
+
+  distance: String(
+    formData.get("distance") || ""
+  ),
+
+  condition: String(
+    formData.get("condition") || ""
+  ),
+
+  desired_exchange: String(
+    formData.get("exchange") || ""
+  ),
+
+  expires_at:
+    expiresAt.toISOString(),
+};
 
     const {
       data: listingData,
