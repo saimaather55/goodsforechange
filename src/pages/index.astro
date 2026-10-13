@@ -1039,8 +1039,12 @@ const {data:listings}=await supabase
 id,
 title,
 description,
+country,
 city,
-condition
+landmark,
+distance,
+condition,
+desired_exchange
 `)
 
 .in(
@@ -1159,20 +1163,18 @@ alt="${capitalizeText(item.title)}"
 <div class="listing-content">
 
 
-<span class="condition">
-
-${capitalizeText(item.condition || "Good")}
-
-</span>
-
-
-
 <h3 class="listing-title">
 
 ${capitalizeText(item.title)}
 
 </h3>
 
+
+<span class="condition">
+
+${capitalizeText(item.condition || "Good")}
+
+</span>
 
 
 <p class="listing-description">
@@ -1182,10 +1184,37 @@ ${capitalizeText(item.description || "")}
 </p>
 
 
-
 <div class="listing-meta">
 
-📍 ${capitalizeText(item.city || "Karachi")}
+📍
+${capitalizeText(item.city || "Karachi")}
+${item.country ? ", " + capitalizeText(item.country) : ""}
+
+<br>
+
+${
+item.landmark
+?
+`Near ${capitalizeText(item.landmark)}`
+:
+""
+}
+
+<br>
+
+${
+item.distance
+?
+`Approx ${capitalizeText(item.distance)}`
+:
+""
+}
+
+<br><br>
+
+🔄 Looking for:
+
+${capitalizeText(item.desired_exchange || "Any item")}
 
 </div>
 
