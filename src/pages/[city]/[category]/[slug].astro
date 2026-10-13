@@ -1,0 +1,119 @@
+---
+import { createClient } from "@supabase/supabase-js";
+
+const { city, category, slug } = Astro.params;
+
+const supabase = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
+
+
+const { data: listing } = await supabase
+  .from("listings")
+  .select("*")
+  .eq("slug", slug)
+  .single();
+
+
+if (!listing) {
+  return Astro.redirect("/404");
+}
+
+
+const title =
+`${listing.title} for Exchange in ${listing.city} | GoodsForExchange`;
+
+
+const description =
+`${listing.title} available for exchange in ${listing.city}. Looking for ${listing.desired_exchange || "offers"}.`;
+
+---
+
+
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width" />
+
+<title>{title}</title>
+
+<meta 
+name="description"
+content={description}
+/>
+
+</head>
+
+
+<body>
+
+
+<main>
+
+<section>
+
+<h1>
+{listing.title}
+</h1>
+
+
+<p>
+📍 {listing.city}, {listing.country}
+</p>
+
+
+<p>
+Near {listing.landmark}
+</p>
+
+
+<p>
+Approx {listing.distance}
+</p>
+
+
+
+<h2>
+Looking For
+</h2>
+
+
+<p>
+🔄 {listing.desired_exchange}
+</p>
+
+
+
+<h2>
+Description
+</h2>
+
+
+<p>
+{listing.description}
+</p>
+
+
+
+<p>
+Condition:
+{listing.condition}
+</p>
+
+
+
+</section>
+
+
+</main>
+
+
+</body>
+
+</html>
