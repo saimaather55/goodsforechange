@@ -784,7 +784,23 @@ Location
 </strong>
 
 <span>
-📍 ${escapeHtml(listing.city || "Not specified")}
+
+📍 
+${escapeHtml(listing.city || "Not specified")}
+${listing.country ? ", " + escapeHtml(listing.country) : ""}
+
+<br>
+
+${listing.landmark 
+? "Near " + escapeHtml(listing.landmark)
+: ""}
+
+<br>
+
+${listing.distance
+? "Approx " + escapeHtml(listing.distance)
+: ""}
+
 </span>
 
 </div>
@@ -909,7 +925,7 @@ const {data}=await supabase
 
 .from("listings")
 
-.select("id,title,city")
+.select("id,title,city,country")
 
 .eq("category_id",categoryId)
 
