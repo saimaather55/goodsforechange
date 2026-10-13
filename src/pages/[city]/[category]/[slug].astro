@@ -1,12 +1,44 @@
 ---
 import { createClient } from "@supabase/supabase-js";
 
+
+export async function getStaticPaths() {
+
+  return [
+    {
+      params: {
+        city: "karachi",
+        category: "electronics",
+        slug: "iphone-swap"
+      }
+    },
+    {
+      params: {
+        city: "karachi",
+        category: "vehicles",
+        slug: "bike-swap"
+      }
+    },
+    {
+      params: {
+        city: "karachi",
+        category: "books",
+        slug: "book-exchange"
+      }
+    }
+  ];
+
+}
+
+
 const { city, category, slug } = Astro.params;
+
 
 const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
+
 
 
 const { data: listing } = await supabase
@@ -16,13 +48,16 @@ const { data: listing } = await supabase
   .single();
 
 
+
 if (!listing) {
   return Astro.redirect("/404");
 }
 
 
+
 const title =
 `${listing.title} for Exchange in ${listing.city} | GoodsForExchange`;
+
 
 
 const description =
@@ -32,7 +67,6 @@ const description =
 
 
 <!doctype html>
-
 <html lang="en">
 
 <head>
@@ -50,9 +84,7 @@ content={description}
 
 </head>
 
-
 <body>
-
 
 <main>
 
@@ -78,7 +110,6 @@ Approx {listing.distance}
 </p>
 
 
-
 <h2>
 Looking For
 </h2>
@@ -87,7 +118,6 @@ Looking For
 <p>
 🔄 {listing.desired_exchange}
 </p>
-
 
 
 <h2>
@@ -100,19 +130,15 @@ Description
 </p>
 
 
-
 <p>
 Condition:
 {listing.condition}
 </p>
 
 
-
 </section>
 
-
 </main>
-
 
 </body>
 
