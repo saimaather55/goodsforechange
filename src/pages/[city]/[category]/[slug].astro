@@ -1,21 +1,108 @@
 ---
-import Navbar from "../components/Navbar.astro";
-const title = "Listing | GoodsForExchange";
-const description =
-  "View an item available for exchange on GoodsForExchange.";
----
+import Navbar from "../../../components/Navbar.astro";
+import { createClient } from "@supabase/supabase-js";
 
+
+export async function getStaticPaths() {
+
+  return [
+    {
+      params: {
+        city: "karachi",
+        category: "electronics",
+        slug: "iphone-swap"
+      }
+    },
+    {
+      params: {
+        city: "karachi",
+        category: "vehicles",
+        slug: "bike-swap"
+      }
+    },
+    {
+      params: {
+        city: "karachi",
+        category: "books",
+        slug: "book-exchange"
+      }
+    }
+  ];
+
+}
+
+
+
+const { slug } = Astro.params;
+
+
+
+const supabase = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
+
+
+
+const { data: listing, error } = await supabase
+  .from("listings")
+  .select("*")
+  .eq("slug", slug)
+  .single();
+
+
+
+if (error || !listing) {
+
+  throw new Error("Listing not found");
+
+}
+
+
+
+const title =
+`${listing.title} for Exchange in ${listing.city} | GoodsForExchange`;
+
+
+
+const description =
+`${listing.title} available for exchange in ${listing.city}. Looking for ${listing.desired_exchange || "offers"}.`;
+
+
+
+const { data: images } = await supabase
+  .from("listing_images")
+  .select("image_url")
+  .eq("listing_id", listing.id)
+  .order("sort_order");
+
+
+
+const postedDate = listing.created_at
+  ? new Date(listing.created_at).toLocaleDateString()
+  : "Not available";
+
+---
 <!doctype html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8" />
+
 <meta name="viewport" content="width=device-width" />
 
 <title>{title}</title>
 
-<meta name="description" content={description} />
+<meta 
+name="description"
+content={description}
+/>
+
+<link 
+rel="canonical"
+href={`https://goodsforechange.pages.dev/${listing.city?.toLowerCase()}/${listing.category_id}/${listing.slug}/`}
+/>
 
 
 <style is:global>
@@ -40,7 +127,6 @@ line-height:1.6;
 }
 
 
-
 a{
 
 text-decoration:none;
@@ -49,65 +135,12 @@ color:inherit;
 }
 
 
-
 .container{
 
 width:min(1120px,calc(100% - 40px));
 margin:auto;
 
 }
-
-
-
-/* HEADER */
-
-
-.site-header{
-
-background:white;
-border-bottom:1px solid #e4eaee;
-
-}
-
-
-.nav{
-
-min-height:72px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-
-}
-
-
-.logo{
-
-color:#176b87;
-font-size:21px;
-font-weight:800;
-
-}
-
-
-
-nav{
-
-display:flex;
-gap:24px;
-font-weight:600;
-
-}
-
-
-nav a:hover{
-
-color:#176b87;
-
-}
-
-
-
-/* PAGE */
 
 
 .page-header{
@@ -124,26 +157,22 @@ color:#176b87;
 font-size:13px;
 font-weight:800;
 text-transform:uppercase;
-letter-spacing:.08em;
 
 }
 
 
 h1{
 
-margin:8px 0;
+margin:10px 0;
 font-size:44px;
 
 }
 
 
 
-/* LISTING */
-
-
 .listing-section{
 
-padding:50px 0 80px;
+padding:50px 0;
 
 }
 
@@ -161,9 +190,6 @@ box-shadow:0 8px 30px rgba(20,40,50,.05);
 
 
 
-/* GALLERY */
-
-
 .gallery{
 
 background:#eef5f7;
@@ -178,42 +204,10 @@ padding:20px;
 width:100%;
 height:500px;
 object-fit:contain;
-border-radius:12px;
 background:white;
+border-radius:12px;
 
 }
-
-
-
-.thumbnails{
-
-display:flex;
-gap:12px;
-margin-top:15px;
-overflow:auto;
-
-}
-
-
-
-.thumbnail{
-
-width:90px;
-height:90px;
-object-fit:cover;
-border-radius:8px;
-cursor:pointer;
-border:2px solid transparent;
-
-}
-
-
-.thumbnail:hover{
-
-border-color:#176b87;
-
-}
-
 
 
 
@@ -228,12 +222,12 @@ padding:32px;
 .condition{
 
 display:inline-block;
-color:#176b87;
 background:#eaf6f8;
-padding:4px 10px;
+color:#176b87;
+padding:5px 12px;
 border-radius:20px;
-font-size:13px;
 font-weight:800;
+font-size:13px;
 
 }
 
@@ -242,7 +236,6 @@ font-weight:800;
 .content h2{
 
 font-size:32px;
-margin:12px 0 20px;
 
 }
 
@@ -257,12 +250,9 @@ font-size:17px;
 
 
 
-
 .details{
 
-display:grid;
-gap:15px;
-margin:30px 0;
+margin-top:30px;
 padding:20px;
 background:#f7fafb;
 border-radius:12px;
@@ -273,117 +263,46 @@ border-radius:12px;
 
 .details div{
 
-display:flex;
-justify-content:space-between;
-gap:20px;
+margin-bottom:15px;
 
 }
 
 
 
-.details span{
+.seller,
+.notice{
 
-color:#687588;
+margin-top:25px;
+padding:20px;
+border-radius:10px;
 
 }
-
-
-
-/* SELLER */
 
 
 .seller{
 
-padding:20px;
 background:#eef7fa;
-border-radius:10px;
-margin-bottom:25px;
 
 }
 
 
-.seller strong{
+.notice{
 
-display:block;
-margin-bottom:5px;
+background:#fff8e8;
 
 }
 
-
-
-/* BUTTON */
 
 
 .button{
 
 display:inline-block;
+margin-top:20px;
 padding:13px 22px;
-border-radius:8px;
 background:#176b87;
 color:white;
+border-radius:8px;
 font-weight:800;
-
-}
-
-
-.button:hover{
-
-background:#12566d;
-
-}
-
-
-
-/* SAFETY */
-
-
-.notice{
-
-margin:25px 0;
-padding:18px;
-background:#fff8e8;
-border-radius:10px;
-
-}
-
-
-
-.notice p{
-
-margin:0;
-color:#625b4d;
-
-}
-
-
-
-/* SIMILAR */
-
-
-.similar{
-
-margin-top:50px;
-
-}
-
-
-
-.similar-grid{
-
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:20px;
-
-}
-
-
-
-.similar-card{
-
-background:white;
-border:1px solid #dfe8eb;
-border-radius:12px;
-padding:15px;
 
 }
 
@@ -391,6 +310,7 @@ padding:15px;
 
 footer{
 
+margin-top:50px;
 padding:35px 0;
 background:#102d38;
 color:white;
@@ -398,68 +318,16 @@ color:white;
 }
 
 
-
-@media(max-width:800px){
-
-nav{
-
-display:none;
-
-}
-
-
-h1{
-
-font-size:36px;
-
-}
-
-
-.main-image{
-
-height:350px;
-
-}
-
-
-.similar-grid{
-
-grid-template-columns:repeat(2,1fr);
-
-}
-
-
-}
-
-
-
-@media(max-width:500px){
-
-
-.similar-grid{
-
-grid-template-columns:1fr;
-
-}
-
-
-.details div{
-
-flex-direction:column;
-
-}
-
-}
-
 </style>
 
 
 </head>
+
+
 <body>
 
+
 <Navbar />
-
-
 
 
 <main>
@@ -484,21 +352,43 @@ Exchange Listing
 </section>
 
 
-
-
 <section class="listing-section">
-
 
 <div class="container">
 
 
-<div class="listing-card">
+<article class="listing-card">
+
+
+{images && images.length > 0 && (
+
+<div class="gallery">
+
+<img
+
+class="main-image"
+
+src={images[0].image_url}
+
+alt={listing.title}
+
+/>
+
+</div>
+
+)}
+
+
 
 <div class="content">
 
+
 <span class="condition">
+
 {listing.condition} Condition
+
 </span>
+
 
 
 <h2>
@@ -506,44 +396,80 @@ Exchange Listing
 </h2>
 
 
+
 <p class="description">
+
 {listing.description}
+
 </p>
 
 
 <div class="details">
 
-<div>
-<strong>Location</strong>
 
-<span>
+<div>
+
+<strong>
+Location
+</strong>
+
+<p>
 📍 {listing.city}, {listing.country}
+</p>
 
-<br />
 
-{listing.landmark && `Near ${listing.landmark}`}
+{listing.landmark && (
 
-<br />
+<p>
+Near {listing.landmark}
+</p>
 
-{listing.distance && `Approx ${listing.distance}`}
-</span>
+)}
+
+
+{listing.distance && (
+
+<p>
+Approx {listing.distance}
+</p>
+
+)}
+
 
 </div>
+
 
 
 <div>
-<strong>Looking For</strong>
 
-<span>
+<strong>
+Looking For
+</strong>
+
+<p>
 🔄 {listing.desired_exchange}
-</span>
-
-</div>
+</p>
 
 
 </div>
 
 
+
+<div>
+
+<strong>
+Posted
+</strong>
+
+<p>
+{postedDate}
+</p>
+
+
+</div>
+
+
+</div>
 <div class="seller">
 
 <strong>
@@ -555,6 +481,7 @@ GoodsForExchange User
 </p>
 
 </div>
+
 
 
 <div class="notice">
@@ -570,7 +497,8 @@ Please inspect items and verify details before completing an exchange.
 </div>
 
 
-<a 
+
+<a
 class="button"
 href={`/chat/?listing=${listing.id}&owner=${listing.user_id}`}
 >
@@ -578,25 +506,19 @@ href={`/chat/?listing=${listing.id}&owner=${listing.user_id}`}
 </a>
 
 
-</div>
 
 </div>
 
 
-<div id="similar-container" class="similar">
-
-</div>
+</article>
 
 
 </div>
-
 
 </section>
 
 
 </main>
-
-
 
 
 
@@ -617,11 +539,6 @@ Exchange what you have for what you want.
 </div>
 
 </footer>
-
-
-
-
-
 
 
 
