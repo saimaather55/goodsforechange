@@ -474,8 +474,8 @@ Exchange Listing
 </span>
 
 
-<h1 id="listing-title">
-Loading...
+<h1>
+{listing.title}
 </h1>
 
 
@@ -492,12 +492,93 @@ Loading...
 <div class="container">
 
 
-<div id="listing-container">
+<div class="listing-card">
 
-<p>
-Loading listing details...
+<div class="content">
+
+<span class="condition">
+{listing.condition} Condition
+</span>
+
+
+<h2>
+{listing.title}
+</h2>
+
+
+<p class="description">
+{listing.description}
 </p>
 
+
+<div class="details">
+
+<div>
+<strong>Location</strong>
+
+<span>
+📍 {listing.city}, {listing.country}
+
+<br />
+
+{listing.landmark && `Near ${listing.landmark}`}
+
+<br />
+
+{listing.distance && `Approx ${listing.distance}`}
+</span>
+
+</div>
+
+
+<div>
+<strong>Looking For</strong>
+
+<span>
+🔄 {listing.desired_exchange}
+</span>
+
+</div>
+
+
+</div>
+
+
+<div class="seller">
+
+<strong>
+Seller Information
+</strong>
+
+<p>
+GoodsForExchange User
+</p>
+
+</div>
+
+
+<div class="notice">
+
+<strong>
+Safety Notice
+</strong>
+
+<p>
+Please inspect items and verify details before completing an exchange.
+</p>
+
+</div>
+
+
+<a 
+class="button"
+href={`/chat/?listing=${listing.id}&owner=${listing.user_id}`}
+>
+💬 Message Owner
+</a>
+
+
+</div>
 
 </div>
 
@@ -541,472 +622,7 @@ Exchange what you have for what you want.
 
 
 
-<script>
 
-import { createClient } from "@supabase/supabase-js";
-
-
-const supabase=createClient(
-
-import.meta.env.PUBLIC_SUPABASE_URL,
-
-import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-
-);
-
-
-
-
-function escapeHtml(value){
-
-return String(value ?? "")
-
-.replace(/&/g,"&amp;")
-
-.replace(/</g,"&lt;")
-
-.replace(/>/g,"&gt;")
-
-.replace(/"/g,"&quot;")
-
-.replace(/'/g,"&#039;");
-
-}
-
-
-
-
-
-async function loadListing(){
-
-
-const slug = Astro.params.slug;
-
-
-
-const titleEl =
-document.querySelector("#listing-title");
-
-
-const container =
-document.querySelector("#listing-container");
-
-
-
-if(!id){
-
-container.innerHTML =
-"<p>Listing not found.</p>";
-
-return;
-
-}
-
-
-
-
-
-const {data:listing,error}=await supabase
-
-.from("listings")
-
-.select("*")
-
-.eq("slug",slug)
-
-.single();
-
-
-
-
-if(error || !listing){
-
-
-container.innerHTML =
-"<p>Unable to load listing.</p>";
-
-return;
-
-}
-
-
-
-titleEl.textContent =
-listing.title || "Untitled Item";
-
-
-
-
-
-const {data:images}=await supabase
-
-.from("listing_images")
-
-.select("image_url")
-
-.eq("listing_id",id)
-
-.order("sort_order");
-
-
-
-
-let gallery = "";
-
-
-
-if(images && images.length){
-
-
-gallery = `
-
-<div class="gallery">
-
-
-<img 
-id="main-image"
-class="main-image"
-src="${images[0].image_url}"
-alt="${escapeHtml(listing.title)}"
-/>
-
-
-
-<div class="thumbnails">
-
-${images.map(img=>`
-
-<img
-
-class="thumbnail"
-
-src="${img.image_url}"
-
-onclick="changeImage('${img.image_url}')"
-
-/>
-
-`).join("")}
-
-
-</div>
-
-
-</div>
-
-`;
-
-
-}else{
-
-
-gallery = `
-
-<div class="gallery">
-
-<div class="main-image">
-
-📦
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-
-
-const postedDate =
-listing.created_at
-?
-new Date(listing.created_at)
-.toLocaleDateString()
-:
-"Not available";
-
-
-
-
-
-container.innerHTML = `
-
-
-<article class="listing-card">
-
-
-${gallery}
-
-
-
-<div class="content">
-
-
-<span class="condition">
-
-${escapeHtml(
-capitalizeText(listing.condition || "Good") + " Condition"
-)}
-
-</span>
-
-
-
-<h2>
-
-${escapeHtml(listing.title)}
-
-</h2>
-
-
-
-
-<p class="description">
-
-${escapeHtml(listing.description)}
-
-</p>
-
-
-
-
-<div class="details">
-
-
-<div>
-
-<strong>
-Location
-</strong>
-
-<span>
-
-📍 
-${escapeHtml(listing.city || "Not specified")}
-${listing.country ? ", " + escapeHtml(listing.country) : ""}
-
-<br>
-
-${listing.landmark 
-? "Near " + escapeHtml(listing.landmark)
-: ""}
-
-<br>
-
-${listing.distance
-? "Approx " + escapeHtml(listing.distance)
-: ""}
-
-</span>
-
-</div>
-
-
-
-<div>
-
-<strong>
-Looking For
-</strong>
-
-<span>
-🔄 ${escapeHtml(
-listing.desired_exchange || "Open offers"
-)}
-</span>
-
-</div>
-
-
-
-<div>
-
-<strong>
-Posted
-</strong>
-
-<span>
-${postedDate}
-</span>
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-<div class="seller">
-
-<strong>
-Seller Information
-</strong>
-
-<p>
-GoodsForExchange User
-</p>
-
-</div>
-
-
-
-
-
-<div class="notice">
-
-<strong>
-Safety Notice
-</strong>
-
-<p>
-Please inspect items and verify details before completing an exchange.
-</p>
-
-
-</div>
-
-
-
-<a
-
-class="button"
-
-href="/chat/?listing=${listing.id}&owner=${listing.user_id}"
-
->
-
-💬 Message Owner
-
-</a>
-
-
-
-</div>
-
-
-
-</article>
-
-
-`;
-
-
-
-loadSimilar(listing.category_id,id);
-
-
-
-}
-
-
-
-
-
-async function loadSimilar(categoryId,currentId){
-
-
-const box =
-document.querySelector("#similar-container");
-
-
-if(!box || !categoryId) return;
-
-
-
-
-const {data}=await supabase
-
-.from("listings")
-
-.select("id,title,city,country")
-
-.eq("category_id",categoryId)
-
-.neq("id",currentId)
-
-.limit(4);
-
-
-
-
-if(!data || !data.length)
-return;
-
-
-
-
-box.innerHTML = `
-
-
-<h2>
-You May Also Like
-</h2>
-
-
-
-<div class="similar-grid">
-
-
-${data.map(item=>`
-
-
-<a class="similar-card"
-
-/${item.city}/${item.category}/${item.slug}
-
->
-
-
-<strong>
-${escapeHtml(item.title)}
-</strong>
-
-
-<p>
-📍 ${escapeHtml(item.city || "")}
-</p>
-
-
-</a>
-
-
-`).join("")}
-
-
-</div>
-
-
-`;
-
-
-
-}
-
-
-
-window.changeImage=function(url){
-
-const img=document.querySelector("#main-image");
-
-if(img){
-
-img.src=url;
-
-}
-
-};
-
-
-
-loadListing();
-
-
-</script>
 
 
 </body>
