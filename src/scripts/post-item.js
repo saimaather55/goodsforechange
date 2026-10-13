@@ -174,6 +174,12 @@ const expiresAt = new Date();
 expiresAt.setDate(
 expiresAt.getDate() + 15
 );
+const slug = 
+`${titleValue.toLowerCase()
+.replace(/[^a-z0-9]+/g, "-")
+.replace(/^-|-$/g, "")
+}-swap`;
+
 
 
 
@@ -181,11 +187,13 @@ expiresAt.getDate() + 15
 
 const listing = {
 
-
 user_id:user.id,
 
 
 title:titleValue,
+
+
+slug:slug,
 
 
 description:descriptionValue,
