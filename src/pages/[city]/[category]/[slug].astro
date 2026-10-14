@@ -3,37 +3,56 @@ import Navbar from "../../../components/Navbar.astro";
 import { createClient } from "@supabase/supabase-js";
 
 
+
+const supabaseClient = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
+
+
+
 export async function getStaticPaths() {
 
-  return [
-    {
-      params: {
-        city: "karachi",
-        category: "electronics",
-        slug: "iphone-swap"
-      }
-    },
-    {
-      params: {
-        city: "karachi",
-        category: "vehicles",
-        slug: "bike-swap"
-      }
-    },
-    {
-      params: {
-        city: "karachi",
-        category: "books",
-        slug: "book-exchange"
-      }
+
+  const { data: listings, error } = await supabaseClient
+    .from("listings")
+    .select(`
+      slug,
+      city,
+      categories (
+        slug
+      )
+    `);
+
+
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+
+
+  return (listings || []).map((item) => ({
+
+    params: {
+
+      city: item.city.toLowerCase(),
+
+      category: item.categories.slug,
+
+      slug: item.slug
+
     }
-  ];
+
+  }));
+
+
 
 }
 
 
 
-const { slug } = Astro.params;
+const { city, category, slug } = Astro.params;
 
 
 
@@ -45,9 +64,20 @@ const supabase = createClient(
 
 
 const { data: listing, error } = await supabase
+
   .from("listings")
-  .select("*")
+
+  .select(`
+    *,
+    categories (
+      slug
+    )
+  `)
+
   .eq("slug", slug)
+
+  .ilike("city", city)
+
   .single();
 
 
@@ -71,40 +101,24 @@ const description =
 
 
 const { data: images } = await supabase
+
   .from("listing_images")
+
   .select("image_url")
+
   .eq("listing_id", listing.id)
+
   .order("sort_order");
 
 
 
 const postedDate = listing.created_at
-  ? new Date(listing.created_at).toLocaleDateString()
-  : "Not available";
+
+? new Date(listing.created_at).toLocaleDateString()
+
+: "Not available";
 
 ---
-<!doctype html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8" />
-
-<meta name="viewport" content="width=device-width" />
-
-<title>{title}</title>
-
-<meta 
-name="description"
-content={description}
-/>
-
-<link 
-rel="canonical"
-href={`https://goodsforechange.pages.dev/${listing.city?.toLowerCase()}/${listing.category_id}/${listing.slug}/`}
-/>
-
-
 <style is:global>
 
 *{
@@ -115,13 +129,16 @@ box-sizing:border-box;
 body{
 
 margin:0;
+
 font-family:
 Inter,
 system-ui,
 sans-serif;
 
 background:#f7fafb;
+
 color:#172033;
+
 line-height:1.6;
 
 }
@@ -130,40 +147,53 @@ line-height:1.6;
 a{
 
 text-decoration:none;
+
 color:inherit;
 
 }
 
 
+
 .container{
 
 width:min(1120px,calc(100% - 40px));
+
 margin:auto;
 
 }
 
 
+
 .page-header{
 
 padding:60px 0 40px;
+
 background:white;
 
 }
 
 
+
 .eyebrow{
 
 color:#176b87;
+
 font-size:13px;
+
 font-weight:800;
+
 text-transform:uppercase;
 
+letter-spacing:.08em;
+
 }
+
 
 
 h1{
 
 margin:10px 0;
+
 font-size:44px;
 
 }
@@ -181,9 +211,13 @@ padding:50px 0;
 .listing-card{
 
 background:white;
+
 border:1px solid #e0e7eb;
+
 border-radius:16px;
+
 overflow:hidden;
+
 box-shadow:0 8px 30px rgba(20,40,50,.05);
 
 }
@@ -193,6 +227,7 @@ box-shadow:0 8px 30px rgba(20,40,50,.05);
 .gallery{
 
 background:#eef5f7;
+
 padding:20px;
 
 }
@@ -202,9 +237,13 @@ padding:20px;
 .main-image{
 
 width:100%;
+
 height:500px;
+
 object-fit:contain;
+
 background:white;
+
 border-radius:12px;
 
 }
@@ -222,12 +261,18 @@ padding:32px;
 .condition{
 
 display:inline-block;
+
 background:#eaf6f8;
+
 color:#176b87;
+
 padding:5px 12px;
+
 border-radius:20px;
-font-weight:800;
+
 font-size:13px;
+
+font-weight:800;
 
 }
 
@@ -237,6 +282,8 @@ font-size:13px;
 
 font-size:32px;
 
+margin:15px 0;
+
 }
 
 
@@ -244,6 +291,7 @@ font-size:32px;
 .description{
 
 color:#586579;
+
 font-size:17px;
 
 }
@@ -253,8 +301,11 @@ font-size:17px;
 .details{
 
 margin-top:30px;
+
 padding:20px;
+
 background:#f7fafb;
+
 border-radius:12px;
 
 }
@@ -269,26 +320,29 @@ margin-bottom:15px;
 
 
 
-.seller,
-.notice{
+.seller{
 
 margin-top:25px;
+
 padding:20px;
+
+background:#eef7fa;
+
 border-radius:10px;
 
 }
 
 
-.seller{
-
-background:#eef7fa;
-
-}
-
 
 .notice{
 
+margin-top:25px;
+
+padding:20px;
+
 background:#fff8e8;
+
+border-radius:10px;
 
 }
 
@@ -297,11 +351,17 @@ background:#fff8e8;
 .button{
 
 display:inline-block;
+
 margin-top:20px;
+
 padding:13px 22px;
+
 background:#176b87;
+
 color:white;
+
 border-radius:8px;
+
 font-weight:800;
 
 }
@@ -311,14 +371,57 @@ font-weight:800;
 footer{
 
 margin-top:50px;
+
 padding:35px 0;
+
 background:#102d38;
+
 color:white;
 
 }
 
 
+
+@media(max-width:800px){
+
+h1{
+
+font-size:36px;
+
+}
+
+
+.main-image{
+
+height:350px;
+
+}
+
+}
+
+
 </style>
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width" />
+
+<title>{title}</title>
+
+<meta
+name="description"
+content={description}
+/>
+
+
+<link
+rel="canonical"
+href={`https://goodsforechange.pages.dev/${listing.city.toLowerCase()}/${listing.categories.slug}/${listing.slug}/`}
+/>
 
 
 </head>
@@ -352,12 +455,16 @@ Exchange Listing
 </section>
 
 
+
+
 <section class="listing-section">
+
 
 <div class="container">
 
 
 <article class="listing-card">
+
 
 
 {images && images.length > 0 && (
@@ -385,14 +492,16 @@ alt={listing.title}
 
 <span class="condition">
 
-{listing.condition} Condition
+{listing.condition || "Good"} Condition
 
 </span>
 
 
 
 <h2>
+
 {listing.title}
+
 </h2>
 
 
@@ -404,6 +513,7 @@ alt={listing.title}
 </p>
 
 
+
 <div class="details">
 
 
@@ -412,6 +522,7 @@ alt={listing.title}
 <strong>
 Location
 </strong>
+
 
 <p>
 📍 {listing.city}, {listing.country}
@@ -440,18 +551,21 @@ Approx {listing.distance}
 
 
 
+
 <div>
 
 <strong>
 Looking For
 </strong>
 
+
 <p>
-🔄 {listing.desired_exchange}
+🔄 {listing.desired_exchange || "Open offers"}
 </p>
 
 
 </div>
+
 
 
 
@@ -461,6 +575,7 @@ Looking For
 Posted
 </strong>
 
+
 <p>
 {postedDate}
 </p>
@@ -469,18 +584,27 @@ Posted
 </div>
 
 
+
 </div>
+
+
+
+
+
 <div class="seller">
 
 <strong>
 Seller Information
 </strong>
 
+
 <p>
 GoodsForExchange User
 </p>
 
+
 </div>
+
 
 
 
@@ -490,30 +614,42 @@ GoodsForExchange User
 Safety Notice
 </strong>
 
+
 <p>
 Please inspect items and verify details before completing an exchange.
 </p>
 
+
 </div>
+
 
 
 
 <a
+
 class="button"
+
 href={`/chat/?listing=${listing.id}&owner=${listing.user_id}`}
+
 >
+
 💬 Message Owner
+
 </a>
 
 
 
+
 </div>
+
 
 
 </article>
 
 
+
 </div>
+
 
 </section>
 
@@ -522,9 +658,12 @@ href={`/chat/?listing=${listing.id}&owner=${listing.user_id}`}
 
 
 
+
 <footer>
 
+
 <div class="container">
+
 
 <strong>
 GoodsForExchange
@@ -538,10 +677,12 @@ Exchange what you have for what you want.
 
 </div>
 
+
 </footer>
 
 
 
 </body>
+
 
 </html>
