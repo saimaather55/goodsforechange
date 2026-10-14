@@ -408,32 +408,41 @@ async function loadMyListings(){
 
 
 
-  const { data, error } = await supabase
+const { data, error } = await supabase
 
-  .from("listings")
+.from("listings")
 
-  .select(`
+.select(`
 
-    id,
-    title,
-    description,
-    condition,
-    city,
-    desired_exchange,
-    status,
-    expires_at,
-    created_at,
+id,
+slug,
+category_id,
 
-    listing_images(
-      image_url,
-      sort_order
-    )
+categories(
+  slug
+),
 
-  `)
+title,
+description,
+condition,
+city,
+desired_exchange,
+status,
+expires_at,
+created_at,
 
-  .eq("user_id", user.id)
+listing_images(
+  image_url,
+  sort_order
+)
 
-  .order("created_at",{ascending:false});
+`)
+
+.eq("user_id", user.id)
+
+.order("created_at",{ascending:false});
+
+  
 
 
 
@@ -657,7 +666,7 @@ async function loadMyListings(){
 
     <a
     class="button"
-    href="/listing/?id=${listing.id}"
+    href="/${listing.city}/${listing.categories.slug}/${listing.slug}/"
     >
     View Listing
     </a>
