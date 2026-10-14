@@ -3,12 +3,10 @@ import Navbar from "../../../components/Navbar.astro";
 import { createClient } from "@supabase/supabase-js";
 
 
-
 const supabaseClient = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
-
 
 
 export async function getStaticPaths() {
@@ -25,31 +23,22 @@ export async function getStaticPaths() {
     `);
 
 
-
   if (error) {
     throw new Error(error.message);
   }
 
 
+  return (listings || []).map((item)=>({
 
-  return (listings || []).map((item) => ({
-
-    params: {
-
+    params:{
       city: item.city.toLowerCase(),
-
       category: item.categories.slug,
-
       slug: item.slug
-
     }
 
   }));
 
-
-
 }
-
 
 
 const { city, category, slug } = Astro.params;
