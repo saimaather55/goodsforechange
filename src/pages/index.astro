@@ -1,8 +1,8 @@
 ---
 import Navbar from "../components/Navbar.astro";
 
-const title = "GoodsForExchange | Swap Goods Easily";
-const description = "Exchange your items directly with people in your city.";
+const title = "Swap & Exchange Goods and Services | GoodsForExchange";
+const description = "Swap and exchange goods and services with people near you. List items, discover useful swaps, and connect locally to trade what you have for what you need.";
 ---
 
 <!doctype html>
@@ -15,6 +15,7 @@ const description = "Exchange your items directly with people in your city.";
 
 <title>{title}</title>
 <meta name="description" content={description} />
+<link rel="canonical" href="https://goodsforechange.pages.dev/" />
 
 
 
@@ -367,6 +368,17 @@ cursor:pointer;
 background:#12566d;
 
 }
+.search-box select {
+
+  padding:15px 18px;
+  border:1px solid #ccd7de;
+  border-radius:10px;
+  font-size:16px;
+  background:#ffffff;
+  color:#172033;
+  min-width:190px;
+
+}
 
 
 @media(max-width:600px){
@@ -456,8 +468,11 @@ Exchange What You Have For What You Want
 type="text"
 name="q"
 placeholder="Search items like phone, bike, books..."
-required
 />
+
+<select name="category" id="home-category">
+  <option value="">All Categories</option>
+</select>
 
 <button type="submit">
 Search

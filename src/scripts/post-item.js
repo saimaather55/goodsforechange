@@ -15,47 +15,71 @@ const photosInput = document.querySelector("#photos");
 
 
 async function loadCategories() {
-
   if (!(categorySelect instanceof HTMLSelectElement)) {
     return;
   }
 
-
   const { data, error } = await supabase
     .from("categories")
-    .select("id, name")
+    .select("id, name, parent_id")
     .order("name");
 
-
   if (error) {
-
     console.error("Category error:", error);
 
     if (message instanceof HTMLParagraphElement) {
-      message.textContent =
-        "Unable to load categories.";
+      message.textContent = "Unable to load categories.";
     }
 
     return;
   }
 
+  const categories = Array.isArray(data) ? data : [];
 
-  const categories = Array.isArray(data)
-    ? data
-    : [];
+  // Clear existing options except the placeholder
+  categorySelect.innerHTML =
+    '<option value="">Select a category</option>';
 
+  const parents = categories.filter(
+    (category) => !category.parent_id
+  );
 
-  categories.forEach((category) => {
+  const children = categories.filter(
+    (category) => category.parent_id
+  );
 
-    const option = document.createElement("option");
+  parents.forEach((parent) => {
+    const parentChildren = children.filter(
+      (child) => child.parent_id === parent.id
+    );
 
-    option.value = String(category.id);
-    option.textContent = String(category.name);
+    // If this category has children, show them grouped
+    if (parentChildren.length > 0) {
+      const group = document.createElement("optgroup");
 
-    categorySelect.appendChild(option);
+      group.label = String(parent.name);
 
+      parentChildren.forEach((child) => {
+        const option = document.createElement("option");
+
+        option.value = String(child.id);
+        option.textContent = String(child.name);
+
+        group.appendChild(option);
+      });
+
+      categorySelect.appendChild(group);
+
+    } else {
+      // Parent category without children remains selectable
+      const option = document.createElement("option");
+
+      option.value = String(parent.id);
+      option.textContent = String(parent.name);
+
+      categorySelect.appendChild(option);
+    }
   });
-
 }
 
 
