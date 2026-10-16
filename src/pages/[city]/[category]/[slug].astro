@@ -3,15 +3,15 @@ import Navbar from "../../../components/Navbar.astro";
 import { createClient } from "@supabase/supabase-js";
 
 
-const supabaseClient = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-);
+
 
 
 export async function getStaticPaths() {
 
-
+const supabaseClient = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
   const { data: listings, error } = await supabaseClient
     .from("listings")
     .select(`
