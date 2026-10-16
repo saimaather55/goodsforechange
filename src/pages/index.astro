@@ -15,7 +15,7 @@ const description = "Exchange your items directly with people in your city.";
 
 <title>{title}</title>
 <meta name="description" content={description} />
->
+
 
 
 <style is:global>
@@ -718,20 +718,20 @@ if(!gridEl) return;
 
 
 const {data:listings,error}=await supabase
-
-.from("listings")
-
-.select(`
-id,
-title,
-description,
-country,
-city,
-landmark,
-distance,
-condition,
-desired_exchange
-`)
+  .from("listings")
+  .select(`
+    id,
+    title,
+    slug,
+    description,
+    country,
+    city,
+    landmark,
+    distance,
+    condition,
+    desired_exchange,
+    categories!inner(slug)
+  `)
 
 .order(
 "created_at",
