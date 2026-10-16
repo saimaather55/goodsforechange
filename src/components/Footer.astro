@@ -1,0 +1,134 @@
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">GoodsForExchange</a>
+      <p>
+        Trade useful items, discover local swaps, and connect with your community.
+      </p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Explore</h3>
+      <a href="/">Home</a>
+      <a href="/search/">Search Items</a>
+      <a href="/#category-sections">Categories</a>
+      <a href="/post-item/">Post an Item</a>
+    </div>
+
+    <div class="footer-column">
+      <h3>My Account</h3>
+      <a href="/login/">Login</a>
+      <a href="/signup/">Create Account</a>
+      <a href="/my-listings/">My Listings</a>
+      <a href="/messages/">Messages</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <p>© {new Date().getFullYear()} GoodsForExchange. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: #102d38;
+    color: #ffffff;
+    margin-top: 60px;
+    padding-top: 45px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 35px;
+  }
+
+  .footer-brand,
+  .footer-column {
+    min-width: 0;
+  }
+
+  .footer-logo {
+    display: inline-block;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .footer-brand p {
+    max-width: 360px;
+    color: #d0dce1;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .footer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .footer-column h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+  }
+
+  .footer-column a {
+    display: block;
+    color: #d0dce1;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .footer-column a:hover,
+  .footer-logo:hover {
+    color: #8ed8e8;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid #34515b;
+    padding: 16px 0;
+  }
+
+  
+  
+
+  .footer-bottom p {
+    margin: 0;
+    color: #d0dce1;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  /* Footer container spacing — all screen sizes */
+  .site-footer .container {
+    width: min(1200px, calc(100% - 36px));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .site-footer a {
+    text-decoration: none;
+  }
+
+  /* Mobile layout */
+  @media (max-width: 700px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px 20px;
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
+

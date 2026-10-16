@@ -1,4 +1,5 @@
 ---
+import Footer from "../components/Footer.astro";
 import Navbar from "../components/Navbar.astro";
 
 const title = "Swap & Exchange Goods and Services | GoodsForExchange";
@@ -426,15 +427,155 @@ grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
 
-@media(max-width:560px){
+@media (max-width: 560px) {
+  .listing-grid {
+    grid-template-columns: 1fr;
+  }
 
-.listing-grid{
+  .search-box {
+    flex-direction: column;
+  }
+}
 
-grid-template-columns:1fr;
+/* GOODSFOREXCHANGE FOOTER */
+
+.site-footer {
+  background: #102d38;
+  color: #ffffff;
+  margin-top: 60px;
+  padding-top: 45px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 35px;
+}
+
+.footer-brand,
+.footer-column {
+  min-width: 0;
+}
+
+.footer-logo {
+  display: inline-block;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.footer-brand p {
+  max-width: 360px;
+  color: #d0dce1;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.footer-column h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.footer-column a {
+  display: block;
+  color: #d0dce1;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.footer-column a:hover,
+.footer-logo:hover {
+  color: #8ed8e8;
+}
+
+.footer-bottom {
+  border-top: 1px solid #34515b;
+  padding: 16px 0;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: #d0dce1;
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 20px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+  
+
+.homepage-content {
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  line-height: 1.8;
+}
+
+.homepage-content h2 {
+  margin-top: 36px;
+  margin-bottom: 14px;
+  color: #172033;
+  font-size: 25px;
+  line-height: 1.35;
+}
+
+.homepage-content h3 {
+  margin-top: 24px;
+  margin-bottom: 10px;
+  color: #172033;
+  font-size: 19px;
+}
+
+.homepage-content p,
+.homepage-content li {
+  color: #465465;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.homepage-content li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 600px) {
+  .homepage-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .homepage-content h2 {
+    font-size: 22px;
+  }
+
+  .homepage-content p,
+  .homepage-content li {
+    font-size: 15px;
+  }
+}
+
 
 }
 
-}
 
 
 </style>
@@ -457,7 +598,7 @@ grid-template-columns:1fr;
 
 
 <h1>
-Exchange What You Have For What You Want
+Swap and exchange goods and services with people near you
 </h1>
 
 
@@ -667,6 +808,204 @@ Contact the owner and complete your swap.
 
 </section>
 
+<section class="section" id="about-goodsforexchange">
+  <div class="container homepage-content">
+
+    <h2>What Is GoodsForExchange?</h2>
+
+    <p>
+      GoodsForExchange is a platform where people can discover items
+      to swap and exchange goods with others. Instead of buying
+      everything with money, you can offer something you own in
+      exchange for something you need. From electronics and books to
+      clothing, furniture, bicycles, and other useful belongings,
+      swapping gives your unused items another purpose.
+    </p>
+
+    <p>
+      Our goal is to make it easier for people to find potential
+      exchange partners, make better use of their belongings, and
+      explore alternatives to buying new products. Whether you want
+      to find a useful item or give something you no longer need to
+      someone else, GoodsForExchange helps you discover opportunities
+      for direct exchanges.
+    </p>
+
+    <h2>How Does GoodsForExchange Work?</h2>
+
+    <p>
+      Getting started is simple. Browse the available listings, find
+      an item that interests you, and review what its owner wants in
+      return. If you have something suitable to offer, contact the
+      owner and discuss a possible swap.
+    </p>
+
+    <h3>1. Browse Items and Categories</h3>
+
+    <p>
+      Explore recent listings or search for specific items. You can
+      discover opportunities in categories such as electronics,
+      mobile phones, computers, clothing, books, vehicles, furniture,
+      and other useful products. Read each listing carefully to
+      understand the item's condition and the owner's exchange
+      preferences.
+    </p>
+
+    <h3>2. Post Something You Want to Exchange</h3>
+
+    <p>
+      Have an item you no longer use? Create an account and post a
+      listing with a clear title, accurate description, genuine
+      photos, and details about its condition. Explain what you would
+      like in return so that people with suitable items can consider
+      contacting you.
+    </p>
+
+    <h3>3. Find a Match and Agree on the Swap</h3>
+
+    <p>
+      When you find a potential match, contact the other person to
+      discuss the items and agree on the exchange. Confirm the
+      condition of both items, any relevant details, and where and
+      how the swap will take place. An exchange should proceed only
+      when both parties are satisfied with the agreement.
+    </p>
+
+    <h2>Can You Exchange Goods Without Cash?</h2>
+
+    <p>
+      Yes. A direct swap allows two people to exchange goods without
+      a cash payment between them when both agree to the arrangement.
+      For example, you might offer a bicycle in exchange for books,
+      trade unused household items for something you need, or find
+      someone interested in your electronics.
+    </p>
+
+    <p>
+      The key is finding an exchange that works for both sides.
+      People may value items differently, so communicate clearly
+      about condition, usefulness, and expectations before agreeing.
+      GoodsForExchange helps you discover possible matches, but the
+      final decision and terms of each swap are agreed upon by the
+      participants.
+    </p>
+
+    <h2>Why Use GoodsForExchange?</h2>
+
+    <h3>Save Money Through Direct Swapping</h3>
+
+    <p>
+      If you already own something another person wants, it may help
+      you obtain something useful without purchasing it. A suitable
+      direct swap can reduce the need to spend cash on an item,
+      although finding a mutually acceptable exchange depends on
+      availability and individual preferences.
+    </p>
+
+    <h3>Give Unused Items a New Purpose</h3>
+
+    <p>
+      Many useful belongings remain unused in cupboards, garages,
+      or storage spaces. Offering these items for exchange can help
+      someone else put them to use. Swapping can also encourage
+      reuse and reduce unnecessary disposal of usable products.
+    </p>
+
+    <h3>Discover Items in Your Local Area</h3>
+
+    <p>
+      Finding an exchange partner nearby may make arranging a swap
+      more convenient. Browse listings, review item details, and
+      communicate with other users to explore opportunities in your
+      area. Always confirm the location and meeting arrangements
+      directly before proceeding.
+    </p>
+
+    <h3>Make Better Use of What You Own</h3>
+
+    <p>
+      Your unused belongings may be valuable to someone else, just
+      as another person's unwanted item may be useful to you.
+      Exchanging gives both parties an opportunity to benefit from
+      items they already have instead of always buying something new.
+    </p>
+
+    <h2>Is GoodsForExchange Free to Use?</h2>
+
+    <p>
+      GoodsForExchange is designed to help people discover and
+      arrange exchange opportunities. You can browse listings and
+      explore possible swaps on the platform. Check the current
+      website terms for any applicable charges or restrictions on
+      particular features.
+    </p>
+
+    <p>
+      A direct exchange can take place without cash when both people
+      agree to swap their goods. Users should discuss the complete
+      arrangement before handing over an item.
+    </p>
+
+    <h2>Tips for a Safe and Successful Swap</h2>
+
+    <ul>
+      <li>Describe your item honestly, including any defects or damage.</li>
+      <li>Use clear, genuine photos of the item you are offering.</li>
+      <li>Discuss the condition and expectations before agreeing.</li>
+      <li>Choose a safe public meeting place for an in-person exchange.</li>
+      <li>Inspect the items before completing the swap.</li>
+      <li>Protect your personal information and avoid suspicious requests.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>What can I exchange on GoodsForExchange?</h3>
+
+    <p>
+      You can explore available listings for electronics, books,
+      clothing, furniture, vehicles, and other items. Your options
+      depend on the listings posted by other users.
+    </p>
+
+    <h3>Do I need money to swap items?</h3>
+
+    <p>
+      Not necessarily. If both participants agree to a direct
+      exchange, they can swap their items without a cash payment
+      between them.
+    </p>
+
+    <h3>How do I find someone to swap with?</h3>
+
+    <p>
+      Browse listings, search for items you want, and review what
+      each owner is seeking in return. Contact a potential match to
+      discuss whether you can agree on a suitable exchange.
+    </p>
+
+    <h3>Is an exchange guaranteed after posting an item?</h3>
+
+    <p>
+      No. Posting an item helps you find potential exchange partners,
+      but a successful swap depends on finding a suitable match and
+      reaching an agreement with another user.
+    </p>
+
+    <h2>Start Exploring GoodsForExchange</h2>
+
+    <p>
+      You may already own something another person needs, and
+      someone else may have something useful to you. Browse the
+      available listings, explore categories, or post an item you
+      want to exchange. With clear descriptions, good communication,
+      and an agreement that works for both sides, you can discover
+      another way to make better use of your belongings.
+    </p>
+
+  </div>
+</section>
+
+
 
 
 
@@ -676,26 +1015,46 @@ Contact the owner and complete your swap.
 
 
 
-<footer>
 
+<footer class="site-footer">
+  <div class="container footer-grid">
 
-<div class="container">
-
-
-<strong>
-GoodsForExchange
-</strong>
-
-
-<p>
-Exchange what you have for what you want.
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">GoodsForExchange</a>
+      <p>
+        <p>
+  Trade useful items, discover local swaps, and connect with your community.
 </p>
+      </p>
+    </div>
 
+    <div class="footer-column">
+      <h3>Explore</h3>
+      <a href="/">Home</a>
+      <a href="/search/">Search Items</a>
+      <a href="/#category-sections">Categories</a>
+      <a href="/post-item/">Post an Item</a>
+    </div>
 
-</div>
+    <div class="footer-column">
+      <h3>My Account</h3>
+      <a href="/login/">Login</a>
+      <a href="/signup/">Create Account</a>
+      <a href="/my-listings/">My Listings</a>
+      <a href="/messages/">Messages</a>
+    </div>
 
+  </div>
 
+  <div class="footer-bottom">
+    <div class="container">
+      <p>
+        © 2026 GoodsForExchange. All rights reserved.
+      </p>
+    </div>
+  </div>
 </footer>
+
 <script>
 
 import { createClient } from "@supabase/supabase-js";
@@ -705,6 +1064,38 @@ const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
+
+async function loadHomeCategories() {
+  console.log("loadHomeCategories started");
+  const categorySelect = document.querySelector("#home-category");
+
+  if (!(categorySelect instanceof HTMLSelectElement)) {
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, name, slug, parent_id")
+    .is("parent_id", null)
+    .order("name");
+    console.log("Categories returned:", data);
+console.log("Category query error:", error);
+
+  if (error) {
+    console.error("Homepage category loading error:", error);
+    return;
+  }
+
+  categorySelect.innerHTML = '<option value="">All Categories</option>';
+
+  (data || []).forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.slug;
+    option.textContent = category.name;
+    categorySelect.appendChild(option);
+  });
+}
+
 
 
 
@@ -1278,6 +1669,8 @@ finalHTML;
 
 
 
+
+loadHomeCategories();
 
 fetchRecentListings();
 
