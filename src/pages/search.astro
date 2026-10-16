@@ -512,9 +512,11 @@ const {data,error}=await supabase
 .select(`
 id,
 title,
+slug,
 description,
 city,
 condition,
+categories(slug),
 listing_images(image_url)
 `)
 
@@ -566,7 +568,10 @@ infoEl.textContent =
 
 gridEl.innerHTML =
 data.map(item=>{
-
+const categorySlug =
+  Array.isArray(item.categories)
+    ? item.categories[0]?.slug
+    : item.categories?.slug;
 
 const image =
 
@@ -585,9 +590,7 @@ null;
 
 return `
 
-
-href="/${item.city}/${item.categories.slug}/${item.slug}/" class="listing-card">
-
+<a href="/${item.city}/${categorySlug}/${item.slug}/" class="listing-card">
 
 <div class="listing-image-frame">
 
